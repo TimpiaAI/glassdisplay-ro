@@ -4,7 +4,7 @@ import { WordReveal } from "./WordReveal";
 export function FinalCTA() {
   return (
     <section id="contact" className="pt-24 pb-32 bg-primary relative overflow-hidden z-[9]">
-      <div className="max-w-[96%] mx-auto bg-text-head text-white rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-24 relative overflow-hidden shadow-2xl">
+      <div className="max-w-[96%] mx-auto bg-text-head text-white rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-24 relative overflow-hidden shadow-2xl border-2 border-accent">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
           <div>
             <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold text-white leading-[1.1] mb-6">

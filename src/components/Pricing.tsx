@@ -111,8 +111,8 @@ export function Pricing() {
           {plans.map((plan, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, rotate: 0 }}
+              whileInView={{ opacity: 1, y: 0, rotate: [-2.5, 0, 2.5][i] }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className={`relative bg-card rounded-3xl p-8 flex flex-col min-h-[450px] md:min-h-[550px] border-2 border-text-head transition-all duration-300 ${
@@ -122,7 +122,7 @@ export function Pricing() {
               }`}
             >
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-text-head px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-text-head px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm rotate-3">
                   Popular
                 </div>
               )}

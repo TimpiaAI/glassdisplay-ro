@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { WordReveal } from "./WordReveal";
 import { Plus } from "lucide-react";
 
+
 export function FAQ() {
   const faqs = [
     {
@@ -34,7 +35,8 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="pt-44 pb-32 bg-alternate relative overflow-hidden rounded-b-[2.5rem] md:rounded-b-[4rem] -mt-12 z-[7]">
+    <section id="faq" className="pt-44 pb-32 bg-alternate relative overflow-hidden rounded-[2.5rem] md:rounded-[4rem] z-[7]">
+
       <div className="max-w-3xl mx-auto px-6">
         <div className="mb-16">
           <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-text-head leading-[1.2] mb-4">

@@ -12,7 +12,7 @@ export function Hero() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="mb-4"
           >
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-text-label">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-text-label inline-block -rotate-2">
               Ecrane LED Transparente
             </span>
           </motion.div>
@@ -47,18 +47,21 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-7 relative h-[60vh] lg:h-[85vh] w-full">
+        <div className="lg:col-span-7 relative h-[50vh] lg:h-[70vh] w-[105%] lg:w-[110%]">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.95, rotate: 0 }}
+            animate={{ opacity: 1, scale: 1, rotate: 2 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 bg-white border border-border-subtle rounded-2xl overflow-hidden flex items-center justify-center shadow-sm"
+            className="absolute inset-0 bg-black border-2 border-text-head rounded-2xl overflow-hidden shadow-[8px_8px_0px_0px_#00FF88]"
           >
-            <div className="text-text-label font-mono text-sm">
-              {/* Replace with illustration: storefront with glowing LED screen */}
-              [Illustration Placeholder]
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-tr from-accent/5 to-transparent pointer-events-none"></div>
+            <video
+              src="/hero-video.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            />
           </motion.div>
         </div>
       </div>

@@ -12,7 +12,7 @@ interface CountUpProps {
 
 export function CountUp({ from = 0, to, duration = 2, className = "", separator = "," }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
   const count = useMotionValue(from);
   const rounded = useTransform(count, (latest) => {
     return Math.round(latest).toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);

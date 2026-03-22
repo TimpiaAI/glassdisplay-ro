@@ -2,9 +2,11 @@ import { motion } from "motion/react";
 import { WordReveal } from "./WordReveal";
 import { CountUp } from "./CountUp";
 
+
 export function Solution() {
   return (
-    <section id="soluția" className="py-32 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] -mt-12 z-[4]">
+    <section id="soluția" className="py-32 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[4]">
+
       {/* Dispersed colors */}
       <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-accent/10 blur-[100px] pointer-events-none"></div>
       <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[120px] pointer-events-none"></div>
@@ -25,7 +27,12 @@ export function Solution() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 bg-text-head gap-[2px] border-2 border-text-head rounded-3xl shadow-[8px_8px_0px_0px_#00FF88] mb-24 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, rotate: 0 }}
+          whileInView={{ opacity: 1, rotate: -2 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-2 md:grid-cols-4 bg-text-head gap-[2px] border-2 border-text-head rounded-3xl shadow-[8px_8px_0px_0px_#00FF88] mb-24 overflow-hidden">
           {[
             { value: 90, unit: "%", label: "transparență" },
             { value: 2, unit: "mm", label: "grosime" },
@@ -50,21 +57,28 @@ export function Solution() {
               </motion.div>
             </div>
           ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full h-[40vh] md:h-[60vh] bg-card border-2 border-text-head rounded-3xl flex items-center justify-center shadow-[8px_8px_0px_0px_#00FF88] relative overflow-hidden"
-        >
-          <div className="text-text-label font-mono text-sm">
-            {/* Replace with illustration: transparency explainer (seeing through the panel) */}
-            [Illustration Placeholder]
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent/5 pointer-events-none"></div>
         </motion.div>
+
+        <div className="relative w-full flex items-start">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, rotate: 0 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 3 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="w-[85%] bg-alternate border-2 border-text-head rounded-3xl shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden z-[1]"
+          >
+            <img src="/solution-2.png" alt="Flexible LED Crystal Film" className="w-full h-auto block" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, rotate: 0 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: -2 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-8 -right-16 w-[65%] h-[85%] bg-card border-2 border-text-head rounded-3xl shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden z-[2]"
+          >
+            <img src="/solution-1.png" alt="High Transparency LED Screen" className="w-full h-full object-cover" />
+          </motion.div>
+        </div>
       </div>
     </section>
   );

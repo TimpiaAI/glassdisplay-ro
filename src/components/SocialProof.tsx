@@ -27,7 +27,7 @@ export function SocialProof() {
             />
           </div>
           <div className="flex justify-between items-center text-sm font-mono">
-            <span className="text-white font-bold">7 din 10 locuri rămase</span>
+            <span className="text-white font-bold inline-block -rotate-1">7 din 10 locuri rămase</span>
             <span className="text-white/60">30 aprilie 2026</span>
           </div>
         </div>

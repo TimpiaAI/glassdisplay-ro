@@ -3,7 +3,7 @@ import { Instagram, Linkedin, MessageCircle, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-primary border-t border-border-subtle pt-32 md:pt-40 pb-6 overflow-hidden relative rounded-t-[2.5rem] md:rounded-t-[4rem] -mt-12 z-[10]">
+    <footer className="bg-primary border-2 border-text-head pt-32 md:pt-40 pb-6 overflow-hidden relative rounded-t-[2.5rem] md:rounded-t-[4rem] -mt-12 z-[10]">
       <div className="max-w-7xl mx-auto px-6 mb-20 grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="md:col-span-5">
           <div className="flex items-center gap-1 mb-6">
@@ -70,7 +70,7 @@ export function Footer() {
       </div>
 
       <div className="w-full overflow-hidden flex justify-center items-center pointer-events-none select-none mt-12 mb-4">
-        <h2 className="text-[14vw] font-bold text-text-head/5 tracking-tighter leading-none whitespace-nowrap">
+        <h2 className="text-[14vw] font-bold text-text-head/5 tracking-tighter leading-none whitespace-nowrap -rotate-1">
           GLASSDISPLAY
         </h2>
       </div>

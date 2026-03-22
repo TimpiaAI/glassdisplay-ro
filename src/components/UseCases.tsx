@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { WordReveal } from "./WordReveal";
 
+
 export function UseCases() {
   const cases = [
     {
@@ -26,7 +27,8 @@ export function UseCases() {
   ];
 
   return (
-    <section id="utilizări" className="py-32 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] -mt-12 z-[6]">
+    <section id="utilizări" className="py-32 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[6]">
+
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-16">
           <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-text-head leading-[1.2] mb-4">
@@ -38,8 +40,8 @@ export function UseCases() {
           {cases.map((c, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20, rotate: 0 }}
+              whileInView={{ opacity: 1, y: 0, rotate: [2, -2.5, 3, -2][i] }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className={`bg-card border-2 border-text-head rounded-3xl p-8 flex flex-col justify-between shadow-[8px_8px_0px_0px_#00FF88] hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_#00FF88] transition-all duration-300 group ${c.colSpan}`}
