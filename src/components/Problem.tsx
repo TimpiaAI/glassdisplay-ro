@@ -5,7 +5,7 @@ import { CountUp } from "./CountUp";
 
 export function Problem() {
   return (
-    <section id="problema" className="py-32 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head z-[2]">
+    <section id="problema" className="pt-32 pb-48 md:pb-56 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head z-[2]">
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
         <motion.div

@@ -8,21 +8,29 @@ export function UseCases() {
       title: "Restaurante & Cafenele",
       desc: "Meniul zilei direct pe geam. Schimbă-l din telefon.",
       colSpan: "md:col-span-7",
+      image: "/usecase-restaurant.png",
+      bgColor: "#f3f3ea",
     },
     {
       title: "Magazine & Retail",
       desc: "Promoții care se văd de pe trotuar.",
       colSpan: "md:col-span-5",
+      image: "/usecase-retail.png",
+      bgColor: "#f0f8ef",
     },
     {
       title: "Saloane & Clinici",
       desc: "Portofoliu vizual fără print.",
       colSpan: "md:col-span-5",
+      image: "/usecase-salon.png",
+      bgColor: "#F3F5EF",
     },
     {
       title: "Birouri & Coworking",
       desc: "Branding și informații la intrare.",
       colSpan: "md:col-span-7",
+      image: "/usecase-office.png",
+      bgColor: "#F5F5F0",
     },
   ];
 
@@ -46,11 +54,14 @@ export function UseCases() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className={`bg-card border-2 border-text-head rounded-3xl p-8 flex flex-col justify-between shadow-[8px_8px_0px_0px_#00FF88] hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_#00FF88] transition-all duration-300 group ${c.colSpan}`}
             >
-              <div className="w-full h-48 bg-primary rounded-xl mb-8 flex items-center justify-center border border-border-subtle overflow-hidden relative">
-                <div className="text-text-label font-mono text-xs">
-                  {/* Replace with illustration: {c.title} */}
-                  [Illustration Placeholder]
-                </div>
+              <div className="w-full h-48 rounded-xl mb-8 flex items-center justify-center border-2 border-text-head overflow-hidden relative bg-primary" style={c.bgColor ? { backgroundColor: c.bgColor } : undefined}>
+                {c.image ? (
+                  <img src={c.image} alt={c.title} className="w-full h-full object-contain" />
+                ) : (
+                  <div className="text-text-label font-mono text-xs">
+                    [Illustration Placeholder]
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               </div>
               <div>
