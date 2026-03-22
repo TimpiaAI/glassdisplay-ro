@@ -67,7 +67,7 @@ export function Solution() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="w-[85%] bg-alternate border-2 border-text-head rounded-3xl shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden z-[1]"
           >
-            <img src="/solution-2.png" alt="Flexible LED Crystal Film" className="w-full h-auto block" />
+            <img src="/solution-2.webp" alt="Flexible LED Crystal Film" className="w-full h-auto block" />
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 0.95, rotate: 0 }}
@@ -76,7 +76,7 @@ export function Solution() {
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="absolute top-8 -right-4 md:-right-16 w-[55%] md:w-[65%] h-[85%] bg-card border-2 border-text-head rounded-3xl shadow-[4px_4px_0px_0px_#00FF88] md:shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden z-[2]"
           >
-            <img src="/solution-1.png" alt="High Transparency LED Screen" className="w-full h-full object-cover" />
+            <img src="/solution-1.webp" alt="High Transparency LED Screen" className="w-full h-full object-cover" />
           </motion.div>
         </div>
       </div>

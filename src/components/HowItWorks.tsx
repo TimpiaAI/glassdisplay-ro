@@ -16,24 +16,24 @@ export function HowItWorks() {
       num: "01",
       title: "Măsurăm",
       desc: "Venim la locație, măsurăm vitrina și discutăm ce vrei să afișezi.",
-      image: "/step-01.png",
+      image: "/step-01.webp",
     },
     {
       num: "02",
       title: "Instalăm",
       desc: "Lipim ecranul pe geam în mai puțin de 2 ore. Fără modificări structurale.",
-      image: "/step-02.png",
+      image: "/step-02.webp",
     },
     {
       num: "03",
       title: "Controlezi",
       desc: "Schimbi conținutul de pe telefon oricând vrei. Meniu, promoții, program.",
-      image: "/step-03.png",
+      image: "/step-03.webp",
     },
   ];
 
   return (
-    <section id="cum-funcționează" ref={targetRef} className="relative h-[300vh] bg-[#676768] text-white rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[5]">
+    <section id="cum-funcționează" ref={targetRef} className="relative h-[300vh] bg-[#676768] text-white rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[5] overflow-x-clip">
       <div className="sticky top-0 w-full h-screen flex flex-col justify-center overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 w-full mb-12 shrink-0 relative z-10">
           <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-white leading-[1.2] mb-4">

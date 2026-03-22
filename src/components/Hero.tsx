@@ -37,13 +37,13 @@ export function Hero() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-wrap gap-4"
           >
-            <button className="bg-accent text-text-head px-8 py-4 rounded-sm font-semibold hover:bg-[#00e67a] transition-colors glow-accent-hover relative overflow-hidden group">
-              <span className="relative z-10">Vezi cum funcționează</span>
+            <a href="#contact" className="bg-accent text-text-head px-8 py-4 rounded-sm font-semibold hover:bg-[#00e67a] transition-colors glow-accent-hover relative overflow-hidden group inline-block">
+              <span className="relative z-10">Solicită o ofertă</span>
               <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
-            </button>
-            <button className="bg-transparent border border-text-head text-text-head px-8 py-4 rounded-sm font-semibold hover:bg-text-head hover:text-white transition-colors">
-              Cere ofertă
-            </button>
+            </a>
+            <a href="#cum-funcționează" className="bg-transparent border border-text-head text-text-head px-8 py-4 rounded-sm font-semibold hover:bg-text-head hover:text-white transition-colors inline-block">
+              Vezi cum funcționează
+            </a>
           </motion.div>
         </div>
 

@@ -23,7 +23,7 @@ export function SocialProof() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="hidden xl:block absolute -left-32 bottom-20 w-64 h-52 rounded-2xl border-2 border-text-head shadow-[6px_6px_0px_0px_#00FF88] overflow-hidden z-20"
         >
-          <img src="/product/product-2.jpg" alt="LED display" className="w-full h-full object-cover scale-110" />
+          <img src="/product/product-2.webp" alt="LED display" className="w-full h-full object-cover scale-110" />
         </motion.div>
 
         {/* Right stacked photo */}
@@ -34,12 +34,22 @@ export function SocialProof() {
           transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="hidden xl:block absolute -right-32 top-20 w-64 h-52 rounded-2xl border-2 border-text-head shadow-[6px_6px_0px_0px_#00FF88] overflow-hidden z-20"
         >
-          <img src="/product/product-1.jpg" alt="Flexible LED film" className="w-full h-full object-cover scale-125" />
+          <img src="/product/product-1.webp" alt="Flexible LED film" className="w-full h-full object-cover scale-125" />
         </motion.div>
 
-        <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-white leading-[1.2] mb-12">
-          <WordReveal text="Primii 10 clienți primesc instalare gratuită." className="justify-center" />
+        <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-white leading-[1.2] mb-6">
+          <WordReveal text="Primele 10 business-uri." className="justify-center" />
         </h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-white/80 text-lg md:text-xl max-w-lg mx-auto mb-10 leading-relaxed"
+        >
+          Primesc <span className="text-accent font-bold">2 luni gratuite</span> de mentenanță și acces complet la platformă. Instalarea este inclusă în preț.
+        </motion.p>
 
         <div className="max-w-md mx-auto mb-6">
           <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden relative mb-4">
@@ -72,7 +82,7 @@ export function SocialProof() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="bg-accent text-text-head px-10 py-5 rounded-full font-semibold hover:bg-[#00e67a] transition-colors glow-accent-hover relative overflow-hidden group shadow-[4px_4px_0px_0px_#FFFFFF]"
         >
-          <span className="relative z-10">Rezervă locul tău</span>
+          <span className="relative z-10">Solicită o ofertă</span>
           <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
         </motion.button>
       </div>

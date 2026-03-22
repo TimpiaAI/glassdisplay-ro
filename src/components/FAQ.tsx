@@ -35,7 +35,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="pt-44 pb-32 bg-primary relative overflow-hidden rounded-[2.5rem] md:rounded-[4rem] z-[7]">
+    <section id="faq" className="pt-44 pb-32 bg-primary relative overflow-hidden z-[10]">
 
       <div className="max-w-3xl mx-auto px-6">
         <div className="mb-16 text-center">

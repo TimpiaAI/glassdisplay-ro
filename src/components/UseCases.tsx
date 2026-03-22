@@ -8,28 +8,28 @@ export function UseCases() {
       title: "Restaurante & Cafenele",
       desc: "Meniul zilei direct pe geam. Schimbă-l din telefon.",
       colSpan: "md:col-span-7",
-      image: "/usecase-restaurant.png",
+      image: "/usecase-restaurant.webp",
       bgColor: "#f3f3ea",
     },
     {
       title: "Magazine & Retail",
       desc: "Promoții care se văd de pe trotuar.",
       colSpan: "md:col-span-5",
-      image: "/usecase-retail.png",
+      image: "/usecase-retail.webp",
       bgColor: "#f0f8ef",
     },
     {
       title: "Saloane & Clinici",
       desc: "Portofoliu vizual fără print.",
       colSpan: "md:col-span-5",
-      image: "/usecase-salon.png",
+      image: "/usecase-salon.webp",
       bgColor: "#F3F5EF",
     },
     {
       title: "Birouri & Coworking",
       desc: "Branding și informații la intrare.",
       colSpan: "md:col-span-7",
-      image: "/usecase-office.png",
+      image: "/usecase-office.webp",
       bgColor: "#F5F5F0",
     },
   ];
@@ -56,7 +56,7 @@ export function UseCases() {
             >
               <div className="w-full h-48 rounded-xl mb-8 flex items-center justify-center border-2 border-text-head overflow-hidden relative bg-primary" style={c.bgColor ? { backgroundColor: c.bgColor } : undefined}>
                 {c.image ? (
-                  <img src={c.image} alt={c.title} className="w-full h-full object-contain" />
+                  <img src={c.image} alt={c.title} loading="lazy" className="w-full h-full object-contain" />
                 ) : (
                   <div className="text-text-label font-mono text-xs">
                     [Illustration Placeholder]

@@ -10,23 +10,23 @@ interface VideoItem {
 }
 
 const leftColumn: VideoItem[] = [
-  { src: "/videos/hologram-display.mp4", poster: "/videos/posters/hologram-display.jpg", alt: "Hologramă pe vitrină", label: "Bella Vita Jewelery", logo: "/logos/bellavita.svg" },
-  { src: "/videos/split-1.webm", poster: "/videos/posters/split-1.jpg", alt: "Display LED transparent", label: "TechHub Coworking", logo: "/logos/techhub.svg" },
-  { src: "/videos/aerial-drones.webm", poster: "/videos/posters/aerial-drones.jpg", alt: "Drone cu LED", label: "SkyMedia Events", logo: "/logos/skymedia.svg" },
-  { src: "/videos/split-4.webm", poster: "/videos/posters/split-4.jpg", alt: "Ecran LED", label: "Working Hub București", logo: "/logos/workinghub.svg" },
-  { src: "/videos/showcase.mp4", poster: "/videos/posters/showcase.jpg", alt: "Showcase display", label: "Galeriile Moderne", logo: "/logos/galerii.svg" },
+  { src: "/videos/hologram-display.mp4", poster: "/videos/posters/hologram-display.webp", alt: "Hologramă pe vitrină", label: "Bella Vita Jewelery", logo: "/logos/bellavita.svg" },
+  { src: "/videos/split-1.webm", poster: "/videos/posters/split-1.webp", alt: "Display LED transparent", label: "TechHub Coworking", logo: "/logos/techhub.svg" },
+  { src: "/videos/aerial-drones.webm", poster: "/videos/posters/aerial-drones.webp", alt: "Drone cu LED", label: "SkyMedia Events", logo: "/logos/skymedia.svg" },
+  { src: "/videos/split-4.webm", poster: "/videos/posters/split-4.webp", alt: "Ecran LED", label: "Working Hub București", logo: "/logos/workinghub.svg" },
+  { src: "/videos/showcase.mp4", poster: "/videos/posters/showcase.webp", alt: "Showcase display", label: "Galeriile Moderne", logo: "/logos/galerii.svg" },
 ];
 
 const middleColumn: VideoItem[] = [
-  { src: "/videos/mall-fashion.webm", poster: "/videos/posters/mall-fashion.jpg", alt: "Fashion display mall", label: "ONLY Fashion", logo: "/logos/onlyfashion.svg" },
-  { src: "/videos/flexible-film.webm", poster: "/videos/posters/flexible-film.jpg", alt: "Film LED flexibil", label: "AutoVision Showroom", logo: "/logos/autovision.svg" },
+  { src: "/videos/mall-fashion.webm", poster: "/videos/posters/mall-fashion.webp", alt: "Fashion display mall", label: "ONLY Fashion", logo: "/logos/onlyfashion.svg" },
+  { src: "/videos/flexible-film.webm", poster: "/videos/posters/flexible-film.webp", alt: "Film LED flexibil", label: "AutoVision Showroom", logo: "/logos/autovision.svg" },
 ];
 
 const rightColumn: VideoItem[] = [
-  { src: "/videos/storefront-711.mp4", poster: "/videos/posters/storefront-711.jpg", alt: "Vitrină magazin", label: "7-Eleven", logo: "/logos/7eleven.svg" },
-  { src: "/videos/shopping-mall-ad.webm", poster: "/videos/posters/shopping-mall-ad.jpg", alt: "Reclamă mall", label: "Plaza Mall București", logo: "/logos/plazamall.svg" },
-  { src: "/videos/split-3.webm", poster: "/videos/posters/split-3.jpg", alt: "Ecran transparent", label: "Optiblu Optica", logo: "/logos/optiblu.svg" },
-  { src: "/videos/split-5.webm", poster: "/videos/posters/split-5.jpg", alt: "Display LED", label: "RestoCraft Bistro", logo: "/logos/restocraft.svg" },
+  { src: "/videos/storefront-711.mp4", poster: "/videos/posters/storefront-711.webp", alt: "Vitrină magazin", label: "7-Eleven", logo: "/logos/7eleven.svg" },
+  { src: "/videos/shopping-mall-ad.webm", poster: "/videos/posters/shopping-mall-ad.webp", alt: "Reclamă mall", label: "Plaza Mall București", logo: "/logos/plazamall.svg" },
+  { src: "/videos/split-3.webm", poster: "/videos/posters/split-3.webp", alt: "Ecran transparent", label: "Optiblu Optica", logo: "/logos/optiblu.svg" },
+  { src: "/videos/split-5.webm", poster: "/videos/posters/split-5.webp", alt: "Display LED", label: "RestoCraft Bistro", logo: "/logos/restocraft.svg" },
 ];
 
 const rotations = [-2, 1.5, -1, 2.5, -1.5, 2];
@@ -44,7 +44,7 @@ function VideoCard({ src, poster, alt, label, logo, rotation }: { src: string; p
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="none"
         className="w-full h-auto block"
         title={alt}
       />
