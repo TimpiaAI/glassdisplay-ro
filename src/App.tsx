@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, type ReactNode } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "motion/react";
 import { SkeletonLoader } from "./components/SkeletonLoader";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
@@ -12,8 +14,20 @@ import { SocialProof } from "./components/SocialProof";
 import { FAQ } from "./components/FAQ";
 import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
+import { TermeniSiConditii } from "./pages/TermeniSiConditii";
+import { PoliticaConfidentialitate } from "./pages/PoliticaConfidentialitate";
+import { GDPR } from "./pages/GDPR";
+import { PoliticaCookie } from "./pages/PoliticaCookie";
 
-export default function App() {
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+function HomePage() {
   const [loading, setLoading] = useState(true);
 
   return (
@@ -39,3 +53,36 @@ export default function App() {
   );
 }
 
+function PageTransition({ children }: { children: ReactNode; [key: string]: unknown }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default function App() {
+  const location = useLocation();
+
+  return (
+    <>
+      <ScrollToTop />
+      <AnimatePresence mode="wait">
+        <PageTransition key={location.pathname}>
+          <Routes location={location}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/termeni-si-conditii" element={<TermeniSiConditii />} />
+            <Route path="/politica-de-confidentialitate" element={<PoliticaConfidentialitate />} />
+            <Route path="/gdpr" element={<GDPR />} />
+            <Route path="/politica-cookie" element={<PoliticaCookie />} />
+          </Routes>
+        </PageTransition>
+      </AnimatePresence>
+    </>
+  );
+}

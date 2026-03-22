@@ -1,4 +1,5 @@
 import { Instagram, Linkedin, MessageCircle, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
@@ -10,6 +11,7 @@ export function Footer() {
             <div className="flex items-center gap-1">
               <span className="font-sans font-light text-2xl tracking-tight text-text-head">Glass</span>
               <span className="font-sans font-bold text-2xl tracking-tight text-text-head">Display</span>
+              <span className="text-[0.75em] text-text-body align-super leading-none inline-block rotate-[-8deg]">®</span>
             </div>
           </a>
           <p className="text-text-body text-lg max-w-sm mb-8">
@@ -18,21 +20,24 @@ export function Footer() {
           <div className="flex items-center gap-4">
             <a
               href="#"
-              className="w-12 h-12 rounded-full border border-border-subtle flex items-center justify-center text-text-body hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,136,0.2)] transition-all duration-300"
+              className="relative w-12 h-12 rounded-full border border-border-subtle flex items-center justify-center text-text-body hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,136,0.2)] transition-all duration-300 overflow-hidden group/social hover:rotate-[-6deg]"
             >
-              <Instagram className="w-5 h-5" />
+              <Instagram className="w-5 h-5 relative z-10" />
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent w-[50%] skew-x-[-20deg] pointer-events-none opacity-0 group-hover/social:animate-[shine_0.6s_ease-in-out]" />
             </a>
             <a
               href="#"
-              className="w-12 h-12 rounded-full border border-border-subtle flex items-center justify-center text-text-body hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,136,0.2)] transition-all duration-300"
+              className="relative w-12 h-12 rounded-full border border-border-subtle flex items-center justify-center text-text-body hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,136,0.2)] transition-all duration-300 overflow-hidden group/social hover:rotate-[5deg]"
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="w-5 h-5 relative z-10" />
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent w-[50%] skew-x-[-20deg] pointer-events-none opacity-0 group-hover/social:animate-[shine_0.6s_ease-in-out]" />
             </a>
             <a
               href="#"
-              className="w-12 h-12 rounded-full border border-border-subtle flex items-center justify-center text-text-body hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,136,0.2)] transition-all duration-300"
+              className="relative w-12 h-12 rounded-full border border-border-subtle flex items-center justify-center text-text-body hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,136,0.2)] transition-all duration-300 overflow-hidden group/social hover:rotate-[-4deg]"
             >
-              <Linkedin className="w-5 h-5" />
+              <Linkedin className="w-5 h-5 relative z-10" />
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent w-[50%] skew-x-[-20deg] pointer-events-none opacity-0 group-hover/social:animate-[shine_0.6s_ease-in-out]" />
             </a>
           </div>
         </div>
@@ -53,9 +58,10 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-text-head mb-6">Legal</h4>
             <ul className="space-y-4">
-              <li><a href="https://timpia.ai/termeni-si-conditii" target="_blank" rel="noopener noreferrer" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">Termeni și condiții <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
-              <li><a href="https://timpia.ai/politica-de-confidentialitate" target="_blank" rel="noopener noreferrer" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">Politică de confidențialitate <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
-              <li><a href="https://timpia.ai/politica-cookie" target="_blank" rel="noopener noreferrer" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">Politica Cookie <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
+              <li><Link to="/termeni-si-conditii" className="text-text-body hover:text-accent transition-colors">Termeni și condiții</Link></li>
+              <li><Link to="/politica-de-confidentialitate" className="text-text-body hover:text-accent transition-colors">Politică de confidențialitate</Link></li>
+              <li><Link to="/gdpr" className="text-text-body hover:text-accent transition-colors">Conformitate GDPR</Link></li>
+              <li><Link to="/politica-cookie" className="text-text-body hover:text-accent transition-colors">Politica Cookie</Link></li>
             </ul>
           </div>
           <div>
