@@ -66,7 +66,7 @@ export function FinalCTA() {
                   </span>
                 </span>
                 <span className="text-text-head font-mono text-xl font-bold">
-                  0700 000 000
+                  +40 787 578 482
                 </span>
               </a>
             </div>

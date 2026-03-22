@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { Instagram, Linkedin, MessageCircle, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
@@ -6,12 +5,13 @@ export function Footer() {
     <footer className="bg-primary border-2 border-text-head pt-20 md:pt-40 pb-6 overflow-hidden relative rounded-t-[2.5rem] md:rounded-t-[4rem] -mt-12 z-[10]">
       <div className="max-w-7xl mx-auto px-6 mb-20 grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="md:col-span-5">
-          <div className="flex items-center gap-1 mb-6">
-            <span className="font-sans font-light text-2xl tracking-tight text-text-head">Glass</span>
-            <span className="font-sans font-bold text-2xl tracking-tight text-text-head relative">
-              D<span className="relative inline-block">i<span className="absolute w-2 h-2 bg-accent rounded-full top-1.5 left-[4px]"></span></span>splay
-            </span>
-          </div>
+          <a href="#" className="flex items-center gap-2 mb-6">
+            <img src="/logo.svg" alt="Glass Display" className="w-10 h-10 -rotate-3" />
+            <div className="flex items-center gap-1">
+              <span className="font-sans font-light text-2xl tracking-tight text-text-head">Glass</span>
+              <span className="font-sans font-bold text-2xl tracking-tight text-text-head">Display</span>
+            </div>
+          </a>
           <p className="text-text-body text-lg max-w-sm mb-8">
             Transformăm vitrinele obișnuite în experiențe digitale captivante. Fără a bloca lumina naturală.
           </p>
@@ -53,16 +53,16 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-text-head mb-6">Legal</h4>
             <ul className="space-y-4">
-              <li><a href="#" className="text-text-body hover:text-accent transition-colors">Termeni și condiții</a></li>
-              <li><a href="#" className="text-text-body hover:text-accent transition-colors">Politică de confidențialitate</a></li>
-              <li><a href="#" className="text-text-body hover:text-accent transition-colors">Politica Cookie</a></li>
+              <li><a href="https://timpia.ai/termeni-si-conditii" target="_blank" rel="noopener noreferrer" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">Termeni și condiții <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
+              <li><a href="https://timpia.ai/politica-de-confidentialitate" target="_blank" rel="noopener noreferrer" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">Politică de confidențialitate <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
+              <li><a href="https://timpia.ai/politica-cookie" target="_blank" rel="noopener noreferrer" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">Politica Cookie <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-text-head mb-6">Contact</h4>
             <ul className="space-y-4">
-              <li><a href="mailto:salut@glassdisplay.ro" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">salut@glassdisplay.ro <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" /></a></li>
-              <li><a href="tel:+40700000000" className="text-text-body hover:text-accent transition-colors">0700 000 000</a></li>
+              <li><a href="mailto:hello@timpia.ai" className="text-text-body hover:text-accent transition-colors flex items-center gap-1 group">hello@timpia.ai <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" /></a></li>
+              <li><a href="tel:+40787578482" className="text-text-body hover:text-accent transition-colors">+40 787 578 482</a></li>
               <li className="text-text-body">Brașov, România</li>
             </ul>
           </div>
@@ -77,7 +77,7 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 text-center border-t border-border-subtle pt-6">
         <p className="text-xs text-text-label">
-          © {new Date().getFullYear()} GlassDisplay.ro. Toate drepturile rezervate.
+          © {new Date().getFullYear()} GlassDisplay.ro — un proiect Timpia. Toate drepturile rezervate.
         </p>
       </div>
     </footer>
