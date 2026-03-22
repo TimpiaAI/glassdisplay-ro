@@ -3,7 +3,7 @@ import { WordReveal } from "./WordReveal";
 
 export function Hero() {
   return (
-    <section className="sticky top-0 h-screen bg-primary flex items-center pt-24 pb-32 overflow-hidden z-0">
+    <section className="sticky top-0 h-screen bg-primary flex items-start md:items-center pt-28 md:pt-24 pb-16 md:pb-32 overflow-hidden z-0">
       <div className="max-w-[90rem] mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
         <div className="lg:col-span-5 z-10">
           <motion.div
