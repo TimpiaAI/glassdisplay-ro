@@ -50,7 +50,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Only send if phone looks like it could contain an email, or we send to ourselves
     await resend.emails.send({
       from: "GlassPanel <hello@timpia.ai>",
-      to: ["hello@timpia.ai"],
+      to: ["hello@timpia.ai", "ovidiu@timpia.ai", "david@timpia.ai"],
       subject: `Cerere nouă de la ${name} — GlassPanel.ro`,
       html: getNotificationEmail(name, phone, address, message),
     });
