@@ -1,7 +1,45 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { WordReveal } from "./WordReveal";
+import { useState, type FormEvent } from "react";
+import { Check, Loader2 } from "lucide-react";
 
 export function FinalCTA() {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
+
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+      address: (form.elements.namedItem("address") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Eroare la trimitere");
+      }
+
+      setStatus("success");
+      form.reset();
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "A apărut o eroare. Încearcă din nou.");
+      setStatus("error");
+    }
+  }
+
   return (
     <section id="contact" className="pt-16 md:pt-24 pb-20 md:pb-32 bg-primary relative overflow-hidden z-[9]">
       <div className="max-w-[96%] mx-auto bg-text-head text-white rounded-[2rem] md:rounded-[4rem] p-6 md:p-24 relative overflow-hidden shadow-2xl border-2 border-accent">
@@ -28,33 +66,93 @@ export function FinalCTA() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="bg-white p-5 md:p-12 rounded-2xl md:rounded-3xl shadow-[4px_4px_0px_0px_#00FF88] md:shadow-[8px_8px_0px_0px_#00FF88] border-2 border-text-head max-w-md w-full mx-auto"
           >
-            <h3 className="text-xl font-bold text-text-head mb-1">Vreau să ies în evidență</h3>
-            <p className="text-text-body text-sm mb-5">Completează formularul și te contactăm în 24h.</p>
-            <form className="space-y-4">
-              {["Nume", "Telefon", "Adresa magazinului"].map((field, i) => (
-                <div key={i} className="relative group">
-                  <input
-                    type="text"
-                    placeholder={field}
-                    className="w-full bg-white border-2 border-text-head rounded-xl px-4 py-3 text-text-head placeholder-text-body/50 focus:outline-none focus:border-accent focus:shadow-[4px_4px_0px_0px_#00FF88] transition-all"
-                    required
-                  />
-                </div>
-              ))}
-              <div className="relative group">
-                <textarea
-                  placeholder="Mesaj (opțional)"
-                  rows={3}
-                  className="w-full bg-white border-2 border-text-head rounded-xl px-4 py-3 text-text-head placeholder-text-body/50 focus:outline-none focus:border-accent focus:shadow-[4px_4px_0px_0px_#00FF88] transition-all resize-none"
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-accent text-text-head py-4 rounded-xl border-2 border-text-head font-bold hover:bg-[#00e67a] shadow-[4px_4px_0px_0px_#141414] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#141414] active:translate-y-[4px] active:shadow-none transition-all mt-6"
-              >
-                Solicită o ofertă
-              </button>
-            </form>
+            <AnimatePresence mode="wait">
+              {status === "success" ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-8"
+                >
+                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-text-head shadow-[4px_4px_0px_0px_#141414]">
+                    <Check className="w-8 h-8 text-text-head" />
+                  </div>
+                  <h3 className="text-xl font-bold text-text-head mb-2">Cererea a fost trimisă!</h3>
+                  <p className="text-text-body text-sm mb-6">Te contactăm în maximum 24 de ore.</p>
+                  <button
+                    onClick={() => setStatus("idle")}
+                    className="text-sm text-accent font-semibold hover:underline"
+                  >
+                    Trimite altă cerere
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <h3 className="text-xl font-bold text-text-head mb-1">Vreau să ies în evidență</h3>
+                  <p className="text-text-body text-sm mb-5">Completează formularul și te contactăm în 24h.</p>
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <div className="relative group">
+                      <input
+                        name="name"
+                        type="text"
+                        placeholder="Nume"
+                        className="w-full bg-white border-2 border-text-head rounded-xl px-4 py-3 text-text-head placeholder-text-body/50 focus:outline-none focus:border-accent focus:shadow-[4px_4px_0px_0px_#00FF88] transition-all"
+                        required
+                        disabled={status === "loading"}
+                      />
+                    </div>
+                    <div className="relative group">
+                      <input
+                        name="phone"
+                        type="tel"
+                        placeholder="Telefon"
+                        className="w-full bg-white border-2 border-text-head rounded-xl px-4 py-3 text-text-head placeholder-text-body/50 focus:outline-none focus:border-accent focus:shadow-[4px_4px_0px_0px_#00FF88] transition-all"
+                        required
+                        disabled={status === "loading"}
+                      />
+                    </div>
+                    <div className="relative group">
+                      <input
+                        name="address"
+                        type="text"
+                        placeholder="Adresa magazinului"
+                        className="w-full bg-white border-2 border-text-head rounded-xl px-4 py-3 text-text-head placeholder-text-body/50 focus:outline-none focus:border-accent focus:shadow-[4px_4px_0px_0px_#00FF88] transition-all"
+                        required
+                        disabled={status === "loading"}
+                      />
+                    </div>
+                    <div className="relative group">
+                      <textarea
+                        name="message"
+                        placeholder="Mesaj (opțional)"
+                        rows={3}
+                        className="w-full bg-white border-2 border-text-head rounded-xl px-4 py-3 text-text-head placeholder-text-body/50 focus:outline-none focus:border-accent focus:shadow-[4px_4px_0px_0px_#00FF88] transition-all resize-none"
+                        disabled={status === "loading"}
+                      ></textarea>
+                    </div>
+
+                    {status === "error" && (
+                      <p className="text-red-500 text-sm font-medium">{errorMsg}</p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={status === "loading"}
+                      className="w-full bg-accent text-text-head py-4 rounded-xl border-2 border-text-head font-bold hover:bg-[#00e67a] shadow-[4px_4px_0px_0px_#141414] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#141414] active:translate-y-[4px] active:shadow-none transition-all mt-6 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {status === "loading" ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Se trimite...
+                        </>
+                      ) : (
+                        "Solicită o ofertă"
+                      )}
+                    </button>
+                  </form>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="mt-8 text-center">
               <a
