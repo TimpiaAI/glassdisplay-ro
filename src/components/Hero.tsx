@@ -47,7 +47,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-7 relative h-[50vh] lg:h-[70vh] w-[105%] lg:w-[110%]">
+        <div className="lg:col-span-7 relative h-[40vh] md:h-[50vh] lg:h-[70vh] w-full lg:w-[110%]">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, rotate: 0 }}
             animate={{ opacity: 1, scale: 1, rotate: 2 }}

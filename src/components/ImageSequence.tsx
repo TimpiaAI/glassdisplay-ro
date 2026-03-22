@@ -60,23 +60,23 @@ export function ImageSequence() {
       {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[150px] pointer-events-none" />
 
-      <div className="w-full px-[2px] grid grid-cols-3 gap-6 md:gap-10 items-start">
+      <div className="w-full px-[2px] grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-10 items-start">
         {/* Left column — scrolls UP */}
-        <motion.div className="flex flex-col gap-6 md:gap-10" style={{ y: leftY }}>
+        <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: leftY }}>
           {leftColumn.map((img, i) => (
             <ImageCard key={i} src={img.src} alt={img.alt} rotation={rotations[i]} />
           ))}
         </motion.div>
 
         {/* Middle column — scrolls DOWN */}
-        <motion.div className="flex flex-col gap-6 md:gap-10" style={{ y: middleY }}>
+        <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: middleY }}>
           {middleColumn.map((img, i) => (
             <ImageCard key={i} src={img.src} alt={img.alt} rotation={rotations[(i + 3) % rotations.length]} />
           ))}
         </motion.div>
 
-        {/* Right column — scrolls UP */}
-        <motion.div className="flex flex-col gap-6 md:gap-10" style={{ y: rightY }}>
+        {/* Right column — scrolls UP (hidden on mobile) */}
+        <motion.div className="hidden md:flex flex-col gap-10" style={{ y: rightY }}>
           {rightColumn.map((img, i) => (
             <ImageCard key={i} src={img.src} alt={img.alt} rotation={rotations[(i + 1) % rotations.length]} />
           ))}

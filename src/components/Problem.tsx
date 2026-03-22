@@ -5,7 +5,7 @@ import { CountUp } from "./CountUp";
 
 export function Problem() {
   return (
-    <section id="problema" className="pt-32 pb-48 md:pb-56 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head z-[2]">
+    <section id="problema" className="pt-20 md:pt-32 pb-32 md:pb-56 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head z-[2]">
 
 
       <div className="max-w-7xl mx-auto px-6 flex flex-col items-center relative z-10">

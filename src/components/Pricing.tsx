@@ -44,7 +44,7 @@ function PriceWithHoverImage({ price, subtext, imageSrc }: { price: string, subt
             src={imageSrc}
             alt="Preview"
             referrerPolicy="no-referrer"
-            className="fixed z-[100] w-64 h-40 object-cover rounded-xl shadow-2xl pointer-events-none border-2 border-text-head"
+            className="fixed z-[100] w-64 h-40 object-cover rounded-xl shadow-2xl pointer-events-none border-2 border-text-head hidden md:block"
             style={{
               left: 0,
               top: 0,
@@ -115,7 +115,7 @@ export function Pricing() {
               whileInView={{ opacity: 1, y: 0, rotate: [-2.5, 0, 2.5][i] }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className={`relative bg-card rounded-3xl p-8 flex flex-col min-h-[450px] md:min-h-[550px] border-2 border-text-head transition-all duration-300 ${
+              className={`relative bg-card rounded-3xl p-6 md:p-8 flex flex-col min-h-0 md:min-h-[550px] border-2 border-text-head transition-all duration-300 ${
                 plan.popular
                   ? "md:-translate-y-4 shadow-[8px_8px_0px_0px_#00FF88] hover:-translate-y-6 hover:shadow-[12px_12px_0px_0px_#00FF88]"
                   : "shadow-sm hover:-translate-y-2 hover:shadow-md"
