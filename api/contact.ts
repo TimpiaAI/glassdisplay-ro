@@ -26,6 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       body: JSON.stringify({
         name: `Lead: ${name}`,
+        status: "lead nou",
         description: [
           `**Nume:** ${name}`,
           `**Telefon:** ${phone}`,
