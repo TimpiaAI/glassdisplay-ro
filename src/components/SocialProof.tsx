@@ -13,7 +13,30 @@ export function SocialProof() {
 
   return (
     <section className="pt-12 pb-24 px-4 md:px-8 bg-primary relative overflow-hidden text-center rounded-b-[2.5rem] md:rounded-b-[4rem] z-[8]">
-      <div className="max-w-5xl mx-auto bg-[#676768] text-white border-2 border-text-head rounded-[2.5rem] md:rounded-[4rem] py-20 px-6 md:px-12 relative" ref={ref}>
+      <div className="max-w-6xl mx-auto bg-[#676768] text-white border-2 border-text-head rounded-[2.5rem] md:rounded-[4rem] py-20 px-6 md:px-16 relative" ref={ref}>
+
+        {/* Left stacked photo */}
+        <motion.div
+          initial={{ opacity: 0, x: -20, rotate: 0 }}
+          whileInView={{ opacity: 1, x: 0, rotate: -10 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="hidden xl:block absolute -left-32 bottom-20 w-64 h-52 rounded-2xl border-2 border-text-head shadow-[6px_6px_0px_0px_#00FF88] overflow-hidden z-20"
+        >
+          <img src="/product/product-2.jpg" alt="LED display" className="w-full h-full object-cover scale-110" />
+        </motion.div>
+
+        {/* Right stacked photo */}
+        <motion.div
+          initial={{ opacity: 0, x: 20, rotate: 0 }}
+          whileInView={{ opacity: 1, x: 0, rotate: 12 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="hidden xl:block absolute -right-32 top-20 w-64 h-52 rounded-2xl border-2 border-text-head shadow-[6px_6px_0px_0px_#00FF88] overflow-hidden z-20"
+        >
+          <img src="/product/product-1.jpg" alt="Flexible LED film" className="w-full h-full object-cover scale-125" />
+        </motion.div>
+
         <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-white leading-[1.2] mb-12">
           <WordReveal text="Primii 10 clienți primesc instalare gratuită." className="justify-center" />
         </h2>

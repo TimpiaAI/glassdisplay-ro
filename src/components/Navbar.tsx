@@ -21,12 +21,21 @@ export function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="flex items-center gap-1 shrink-0 px-4 md:px-0">
-          <span className="font-sans font-light text-xl tracking-tight text-text-head">Glass</span>
-          <span className="font-sans font-bold text-xl tracking-tight text-text-head relative">
-            D<span className="relative inline-block">i<span className="absolute w-1.5 h-1.5 bg-accent rounded-full top-1 left-[3px]"></span></span>splay
-          </span>
-        </div>
+        <a href="#" className="flex items-center gap-2 shrink-0 px-4 md:px-0">
+          <div className="relative w-9 h-9 -rotate-3 transition-transform duration-500 ease-out hover:-rotate-6 hover:scale-110 group/icon overflow-hidden rounded">
+            <img
+              src="/logo.svg"
+              alt="Glass Display"
+              className="w-9 h-9"
+            />
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent w-[50%] skew-x-[-20deg] pointer-events-none opacity-0 group-hover/icon:animate-[shine_0.6s_ease-in-out]" />
+          </div>
+          <div className="flex items-center gap-1 transition-transform duration-500 ease-out hover:-rotate-1 relative overflow-hidden group/text">
+            <span className="font-sans font-light text-xl tracking-tight text-text-head">Glass</span>
+            <span className="font-sans font-bold text-xl tracking-tight text-text-head">Display</span>
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent w-[40%] skew-x-[-20deg] pointer-events-none opacity-0 group-hover/text:animate-[shine_0.6s_ease-in-out]" />
+          </div>
+        </a>
 
         <div className="hidden md:flex items-center gap-8">
           {["Soluția", "Cum funcționează", "Prețuri", "Contact"].map((item) => (

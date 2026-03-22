@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Glass pane -->
+  <rect x="8" y="4" width="48" height="56" rx="4" stroke="#141414" stroke-width="3" fill="none"/>
+
+  <!-- Window divider (horizontal) -->
+  <line x1="8" y1="32" x2="56" y2="32" stroke="#141414" stroke-width="2" opacity="0.3"/>
+
+  <!-- Window divider (vertical) -->
+  <line x1="32" y1="4" x2="32" y2="60" stroke="#141414" stroke-width="2" opacity="0.3"/>
+
+  <!-- LED dots grid — top left quadrant -->
+  <circle cx="17" cy="15" r="1.8" fill="#00FF88"/>
+  <circle cx="24" cy="15" r="1.8" fill="#00FF88"/>
+  <circle cx="17" cy="22" r="1.8" fill="#00FF88"/>
+  <circle cx="24" cy="22" r="1.8" fill="#00FF88"/>
+
+  <!-- LED dots grid — top right quadrant -->
+  <circle cx="40" cy="15" r="1.8" fill="#00FF88"/>
+  <circle cx="47" cy="15" r="1.8" fill="#00FF88"/>
+  <circle cx="40" cy="22" r="1.8" fill="#00FF88"/>
+  <circle cx="47" cy="22" r="1.8" fill="#00FF88"/>
+
+  <!-- LED dots grid — bottom left quadrant -->
+  <circle cx="17" cy="40" r="1.8" fill="#00FF88"/>
+  <circle cx="24" cy="40" r="1.8" fill="#00FF88"/>
+  <circle cx="17" cy="47" r="1.8" fill="#00FF88"/>
+  <circle cx="24" cy="47" r="1.8" fill="#00FF88"/>
+
+  <!-- LED dots grid — bottom right quadrant -->
+  <circle cx="40" cy="40" r="1.8" fill="#00FF88"/>
+  <circle cx="47" cy="40" r="1.8" fill="#00FF88"/>
+  <circle cx="40" cy="47" r="1.8" fill="#00FF88"/>
+  <circle cx="47" cy="47" r="1.8" fill="#00FF88"/>
+
+  <!-- Subtle glow behind dots -->
+  <rect x="13" y="11" width="16" height="16" rx="2" fill="#00FF88" opacity="0.08"/>
+  <rect x="36" y="11" width="16" height="16" rx="2" fill="#00FF88" opacity="0.08"/>
+  <rect x="13" y="36" width="16" height="16" rx="2" fill="#00FF88" opacity="0.08"/>
+  <rect x="36" y="36" width="16" height="16" rx="2" fill="#00FF88" opacity="0.08"/>
+</svg>

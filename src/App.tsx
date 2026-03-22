@@ -29,9 +29,9 @@ export default function App() {
           <HowItWorks />
           <UseCases />
           <Pricing />
-          <SocialProof />
-          <FAQ />
           <FinalCTA />
+          <FAQ />
+          <SocialProof />
         </main>
         <Footer />
       </div>
