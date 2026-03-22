@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-primary: #FAFAFA;
+  --color-card: #FFFFFF;
+  --color-alternate: #F3F3F3;
+  
+  --color-text-head: #111111;
+  --color-text-body: #555555;
+  --color-text-label: #999999;
+  
+  --color-accent: #00FF88;
+  --color-border-subtle: #E5E5E5;
+}
+
+@layer base {
+  body {
+    @apply bg-primary text-text-body font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text-head tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glow-accent {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.25);
+  }
+  .glow-accent-hover:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
