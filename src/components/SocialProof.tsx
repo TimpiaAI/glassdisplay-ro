@@ -75,16 +75,6 @@ export function SocialProof() {
           Ofertă valabilă până la 30 aprilie 2026
         </motion.p>
 
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10%" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-accent text-text-head px-10 py-5 rounded-full font-semibold hover:bg-[#00e67a] transition-colors glow-accent-hover relative overflow-hidden group shadow-[4px_4px_0px_0px_#FFFFFF]"
-        >
-          <span className="relative z-10">Solicită o ofertă</span>
-          <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
-        </motion.button>
       </div>
     </section>
   );
