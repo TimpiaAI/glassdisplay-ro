@@ -47,12 +47,11 @@ export function HowItWorks() {
           {steps.map((step, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, rotate: [-1.5, 1, -1][i] }}
+              whileInView={{ opacity: 1, y: 0, rotate: [-1.5, 1, -1][i] }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="w-full bg-white border-2 border-text-head rounded-[2rem] shadow-[6px_6px_0px_0px_#00FF88] p-6"
-              style={{ transform: `rotate(${[-1.5, 1, -1][i]}deg)` }}
             >
               <span className="font-mono text-5xl font-bold text-accent leading-none mb-2 block">
                 {step.num}
