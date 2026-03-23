@@ -1,60 +1,9 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { WordReveal } from "./WordReveal";
-import { useIsMobile } from "../hooks/useIsMobile";
-
-const steps = [
-  {
-    num: "01",
-    title: "Măsurăm",
-    desc: "Venim la locație, măsurăm vitrina și discutăm ce vrei să afișezi.",
-    image: "/step-01.webp",
-  },
-  {
-    num: "02",
-    title: "Instalăm",
-    desc: "Lipim ecranul pe geam în mai puțin de 2 ore. Fără modificări structurale.",
-    image: "/step-02.webp",
-  },
-  {
-    num: "03",
-    title: "Controlezi",
-    desc: "Schimbi conținutul de pe telefon oricând vrei. Meniu, promoții, program.",
-    image: "/step-03.webp",
-  },
-];
-
-function StepCard({ step, rotation }: { step: typeof steps[0]; rotation: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="max-w-5xl w-full bg-white border-2 border-text-head rounded-[2rem] shadow-[6px_6px_0px_0px_#00FF88] p-6 grid grid-cols-1 gap-6 items-center"
-      style={{ transform: `rotate(${rotation}deg)` }}
-    >
-      <div>
-        <span className="font-mono text-5xl font-bold text-accent leading-none mb-2 block">
-          {step.num}
-        </span>
-        <h3 className="text-2xl font-bold text-text-head mb-2">
-          {step.title}
-        </h3>
-        <p className="text-base text-text-body leading-relaxed">
-          {step.desc}
-        </p>
-      </div>
-      <div className="w-full h-[25vh] bg-card border-2 border-text-head rounded-2xl overflow-hidden">
-        <img src={step.image} alt={step.title} className="w-full h-full object-cover" loading="lazy" />
-      </div>
-    </motion.div>
-  );
-}
 
 export function HowItWorks() {
   const targetRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start start", "end end"],
@@ -62,25 +11,27 @@ export function HowItWorks() {
 
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.666666%"]);
 
-  // Mobile: simple stacked layout, no scroll hijacking
-  if (isMobile) {
-    return (
-      <section id="cum-funcționează" className="relative bg-[#676768] text-white rounded-t-[2.5rem] border-t-2 border-x-2 border-text-head -mt-12 z-[5] py-16 px-4">
-        <div className="mb-10">
-          <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-white leading-[1.2] mb-4 px-2">
-            <WordReveal text="Trei pași. Două ore. O vitrină nouă." />
-          </h2>
-        </div>
-        <div className="flex flex-col gap-6 items-center">
-          {steps.map((step, i) => (
-            <StepCard key={i} step={step} rotation={[-1.5, 1, -1][i]} />
-          ))}
-        </div>
-      </section>
-    );
-  }
+  const steps = [
+    {
+      num: "01",
+      title: "Măsurăm",
+      desc: "Venim la locație, măsurăm vitrina și discutăm ce vrei să afișezi.",
+      image: "/step-01.webp",
+    },
+    {
+      num: "02",
+      title: "Instalăm",
+      desc: "Lipim ecranul pe geam în mai puțin de 2 ore. Fără modificări structurale.",
+      image: "/step-02.webp",
+    },
+    {
+      num: "03",
+      title: "Controlezi",
+      desc: "Schimbi conținutul de pe telefon oricând vrei. Meniu, promoții, program.",
+      image: "/step-03.webp",
+    },
+  ];
 
-  // Desktop: horizontal scroll experience
   return (
     <section id="cum-funcționează" ref={targetRef} className="relative h-[300vh] bg-[#676768] text-white rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[5] overflow-x-clip">
       <div className="sticky top-0 w-full h-screen flex flex-col justify-center overflow-hidden">
@@ -90,7 +41,7 @@ export function HowItWorks() {
           </h2>
         </div>
 
-        <motion.div style={{ x }} className="flex w-[300vw] relative z-10 will-change-transform">
+        <motion.div style={{ x }} className="flex w-[300vw] relative z-10">
           {steps.map((step, i) => (
             <div key={i} className="w-[100vw] flex items-center justify-center px-6">
               <div className="max-w-5xl w-full bg-white border-2 border-text-head rounded-[2.5rem] shadow-[8px_8px_0px_0px_#00FF88] p-8 md:p-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center pb-16 md:pb-16" style={{ transform: `rotate(${[-2.5, 2, -3][i]}deg)` }}>
@@ -114,10 +65,10 @@ export function HowItWorks() {
             </div>
           ))}
         </motion.div>
-
+        
         {/* Progress indicator */}
         <div className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 w-48 h-1 bg-white/10 rounded-full overflow-hidden z-10">
-          <motion.div
+          <motion.div 
             className="h-full bg-accent"
             style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
           />

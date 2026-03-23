@@ -1,6 +1,5 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import { useIsMobile } from "../hooks/useIsMobile";
 
 interface VideoItem {
   src: string;
@@ -35,7 +34,7 @@ const rotations = [-2, 1.5, -1, 2.5, -1.5, 2];
 function VideoCard({ src, poster, alt, label, logo, rotation }: { src: string; poster: string; alt: string; label?: string; logo?: string; rotation: number; [key: string]: unknown }) {
   return (
     <div
-      className="w-full rounded-2xl border-2 border-text-head overflow-hidden shadow-[4px_4px_0px_0px_#00FF88] bg-card relative will-change-transform"
+      className="w-full rounded-2xl border-2 border-text-head overflow-hidden shadow-[4px_4px_0px_0px_#00FF88] bg-card relative"
       style={{ transform: `rotate(${rotation}deg)` }}
     >
       <video
@@ -80,42 +79,40 @@ function BrandCard() {
 
 export function ImageSequence() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  // Disable parallax on mobile for smooth scrolling
-  const leftY = useTransform(scrollYProgress, [0, 1], isMobile ? ["0%", "0%"] : ["10%", "-30%"]);
-  const middleY = useTransform(scrollYProgress, [0, 1], isMobile ? ["0%", "0%"] : ["-20%", "10%"]);
-  const rightY = useTransform(scrollYProgress, [0, 1], isMobile ? ["0%", "0%"] : ["15%", "-25%"]);
+  const leftY = useTransform(scrollYProgress, [0, 1], ["10%", "-30%"]);
+  const middleY = useTransform(scrollYProgress, [0, 1], ["-20%", "10%"]);
+  const rightY = useTransform(scrollYProgress, [0, 1], ["15%", "-25%"]);
 
   return (
     <section
       ref={containerRef}
       className="relative pt-24 pb-12 bg-alternate overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[3]"
     >
-      {/* Ambient glow — hidden on mobile for performance */}
-      <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[150px] pointer-events-none" />
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[150px] pointer-events-none" />
 
       <div className="w-full px-[2px] grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-10 items-start">
         {/* Left column — scrolls UP */}
-        <motion.div className="flex flex-col gap-3 md:gap-10 will-change-transform" style={{ y: leftY }}>
+        <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: leftY }}>
           {leftColumn.map((vid, i) => (
             <VideoCard key={i} src={vid.src} poster={vid.poster} alt={vid.alt} label={vid.label} logo={vid.logo} rotation={rotations[i % rotations.length]} />
           ))}
         </motion.div>
 
         {/* Middle column — scrolls DOWN */}
-        <motion.div className="flex flex-col gap-3 md:gap-10 will-change-transform" style={{ y: middleY }}>
+        <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: middleY }}>
           <VideoCard src={middleColumn[0].src} poster={middleColumn[0].poster} alt={middleColumn[0].alt} label={middleColumn[0].label} logo={middleColumn[0].logo} rotation={rotations[3]} />
           <BrandCard />
           <VideoCard src={middleColumn[1].src} poster={middleColumn[1].poster} alt={middleColumn[1].alt} label={middleColumn[1].label} logo={middleColumn[1].logo} rotation={rotations[4]} />
         </motion.div>
 
         {/* Right column — scrolls UP (hidden on mobile) */}
-        <motion.div className="hidden md:flex flex-col gap-10 will-change-transform" style={{ y: rightY }}>
+        <motion.div className="hidden md:flex flex-col gap-10" style={{ y: rightY }}>
           {rightColumn.map((vid, i) => (
             <VideoCard key={i} src={vid.src} poster={vid.poster} alt={vid.alt} label={vid.label} logo={vid.logo} rotation={rotations[(i + 1) % rotations.length]} />
           ))}

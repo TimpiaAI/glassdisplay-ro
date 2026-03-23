@@ -17,10 +17,8 @@
 }
 
 @layer base {
-  @media (min-width: 768px) {
-    html {
-      scroll-behavior: smooth;
-    }
+  html {
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-primary text-text-body font-sans antialiased;

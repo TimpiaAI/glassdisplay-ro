@@ -23,8 +23,8 @@ export function Navbar({ initialScrolled = false }: { initialScrolled?: boolean 
         <motion.nav
           className={`pointer-events-auto flex flex-wrap items-center justify-between transition-[max-width,background-color,padding,box-shadow,border-color] duration-500 rounded-3xl md:rounded-full ${
             scrolled || mobileOpen
-              ? "w-full max-w-4xl bg-white/95 backdrop-blur-sm md:backdrop-blur-2xl border-2 border-text-head shadow-[4px_4px_0px_0px_#141414] py-3 px-4 md:px-6"
-              : "w-full max-w-7xl bg-white/10 backdrop-blur-none md:backdrop-blur-md py-2 px-2 border-2 border-transparent shadow-none"
+              ? "w-full max-w-4xl bg-white/90 backdrop-blur-2xl border-2 border-text-head shadow-[4px_4px_0px_0px_#141414] py-3 px-4 md:px-6"
+              : "w-full max-w-7xl bg-white/10 backdrop-blur-md py-2 px-2 border-2 border-transparent shadow-none"
           }`}
           initial={{ y: -100 }}
           animate={{ y: 0 }}
