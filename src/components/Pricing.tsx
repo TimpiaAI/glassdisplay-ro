@@ -211,13 +211,13 @@ export function Pricing() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left — Platform mockup + stacked photos */}
+          {/* Left — Platform mockup + stacked photos (order-2 on mobile so pricing shows first) */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="space-y-6"
+            className="space-y-6 order-2 lg:order-1"
           >
             {/* Platform mockup + overlapping storefront photos */}
             <div className="relative">
@@ -268,7 +268,7 @@ export function Pricing() {
             whileInView={{ opacity: 1, x: 0, rotate: 2 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative bg-card rounded-3xl p-8 md:p-10 border-2 border-text-head shadow-[8px_8px_0px_0px_#00FF88] hover:-translate-y-2 hover:shadow-[12px_12px_0px_0px_#00FF88] transition-all duration-300"
+            className="relative bg-card rounded-3xl p-8 md:p-10 border-2 border-text-head shadow-[8px_8px_0px_0px_#00FF88] hover:-translate-y-2 hover:shadow-[12px_12px_0px_0px_#00FF88] transition-all duration-300 order-1 lg:order-2"
           >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-text-head px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm rotate-2 border-2 border-text-head">
               Ofertă lansare
