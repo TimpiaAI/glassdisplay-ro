@@ -197,7 +197,7 @@ export function Pricing() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-text-head leading-[1.2] mb-4">
-            <WordReveal text="Prețuri transparente. La fel ca ecranele noastre." className="justify-center" />
+            <WordReveal text="Vitrina ta digitală. De la €3.2/zi." className="justify-center" />
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -206,7 +206,7 @@ export function Pricing() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg text-text-body max-w-2xl mx-auto"
           >
-            Ecran + platformă de management + suport. Fără costuri ascunse.
+            Ecran + instalare + avizare primărie + platformă de management. Tot ce trebuie, într-un singur pachet.
           </motion.p>
         </div>
 
@@ -274,38 +274,34 @@ export function Pricing() {
               Ofertă lansare
             </div>
 
-            <div className="mb-6">
-              <h3 className="text-3xl font-bold text-text-head mb-1">Glass Display Pro</h3>
-              <p className="text-text-label text-sm">Ecran + instalare + platformă</p>
+            {/* Main price */}
+            <div className="mb-6 text-center">
+              <div className="flex items-baseline justify-center gap-2 mb-1">
+                <span className="font-mono text-[clamp(3rem,7vw,4.5rem)] font-bold text-text-head leading-none">€3.2</span>
+                <span className="text-text-label text-lg font-medium">/zi</span>
+              </div>
+              <p className="text-text-body text-sm">(€99/lună, facturat lunar)</p>
             </div>
 
+            {/* Setup */}
             <div className="mb-6 bg-alternate border-2 border-text-head rounded-xl p-5 shadow-[4px_4px_0px_0px_#00FF88]">
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="font-mono text-4xl font-bold text-text-head">€750</span>
-                <span className="text-text-label text-sm">/m²</span>
+                <span className="text-sm font-bold text-text-body uppercase tracking-wider">Instalare de la</span>
+                <span className="font-mono text-2xl font-bold text-text-head ml-auto">€499</span>
               </div>
-              <p className="text-sm text-text-body">produs + instalare inclusă</p>
-              <div className="mt-3 flex items-center gap-3 bg-white border-2 border-text-head rounded-sm px-3 py-2 shadow-[2px_2px_0px_0px_#141414]">
-                <span className="text-sm font-bold text-text-body">Mentenanță lunară</span>
-                <span className="font-mono text-lg font-bold text-text-head ml-auto">€150</span>
-                <span className="text-text-label text-xs">/m²/lună</span>
-              </div>
-              <div className="mt-3 bg-accent/10 border-2 border-accent rounded-sm px-3 py-2 shadow-[2px_2px_0px_0px_#00FF88] rotate-[-1.5deg] hover:rotate-[1deg] transition-transform duration-300">
-                <span className="text-sm font-bold text-text-head">Primele 2 luni GRATIS</span>
-                <span className="text-xs text-text-body block">pentru primele 10 business-uri</span>
-              </div>
+              <p className="text-sm text-text-body">Ecran LED transparent + montaj + configurare + documentație avizare</p>
             </div>
 
             <ul className="mb-8 space-y-3">
               {[
                 "Ecran LED transparent inclus",
-                "Instalare inclusă în preț",
-                "Platformă management cu AI",
-                "Generare conținut cu inteligență artificială",
-                "Programare pe calendar",
-                "Analytics și rapoarte",
+                "Instalare în mai puțin de 2 ore",
+                "Avizare primărie — ne ocupăm noi",
+                "Platformă cu AI pentru conținut",
+                "Schimbi conținutul de pe telefon",
                 "Suport tehnic dedicat",
                 "Garanție 2 ani",
+                "Fără contract pe termen lung",
               ].map((feature, j) => (
                 <li key={j} className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
@@ -314,13 +310,13 @@ export function Pricing() {
               ))}
             </ul>
 
-            <button className="w-full py-4 rounded-full font-semibold bg-accent text-text-head hover:bg-[#00e67a] transition-colors relative overflow-hidden group cursor-pointer border-2 border-text-head shadow-[4px_4px_0px_0px_#141414] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_#141414]">
-              <span className="relative z-10">Solicită o ofertă</span>
+            <a href="#contact" className="w-full py-4 rounded-full font-semibold bg-accent text-text-head hover:bg-[#00e67a] transition-colors relative overflow-hidden group cursor-pointer border-2 border-text-head shadow-[4px_4px_0px_0px_#141414] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_#141414] flex items-center justify-center gap-2">
+              <span className="relative z-10">Vreau vitrina digitală →</span>
               <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-out" />
-            </button>
+            </a>
 
             <p className="text-center text-xs text-text-label mt-3">
-              Fără contract pe termen lung. Anulezi oricând.
+              Anulezi oricând. Primele 5 business-uri din Brașov primesc prima lună gratuită.
             </p>
           </motion.div>
         </div>
