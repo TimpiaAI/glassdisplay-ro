@@ -72,9 +72,7 @@ function BeforeAfter() {
               {/* Top bar */}
               <div className="flex items-center justify-between mb-2 md:mb-3">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-5 h-5 md:w-7 md:h-7 bg-[#FFD700] rounded-full flex items-center justify-center border border-white/30">
-                    <span className="text-[6px] md:text-[8px] font-black text-[#003399]">A</span>
-                  </div>
+                  <img src="/demo/atlantis/logo-atlantis.webp" alt="Atlantis" className="w-5 h-5 md:w-7 md:h-7 rounded-full object-cover border border-white/30" />
                   <span className="text-white text-[8px] md:text-xs font-bold tracking-wider drop-shadow-lg">ATLANTIS 10</span>
                 </div>
                 <span className="text-[#00FF88] text-[7px] md:text-[10px] font-mono font-bold">LIVE</span>
@@ -178,12 +176,12 @@ export function AtlantisDemo() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2 bg-text-head border-2 border-text-head rounded-full px-4 py-2 mb-6 shadow-[3px_3px_0px_0px_#00FF88]"
+              className="inline-flex items-center gap-3 bg-white border-2 border-text-head rounded-full px-5 py-2.5 mb-6 shadow-[3px_3px_0px_0px_#00FF88]"
             >
-              <div className="w-6 h-6 bg-[#FFD700] rounded-full flex items-center justify-center">
-                <span className="text-[8px] font-black text-[#003399]">A</span>
-              </div>
-              <span className="text-white text-sm font-medium">Prezentare exclusiva pentru Atlantis</span>
+              <img src="/demo/atlantis/logo-atlantis.webp" alt="Atlantis" className="w-7 h-7 rounded-full object-cover" />
+              <span className="text-text-label text-sm font-medium">x</span>
+              <img src="/logo.svg" alt="GlassPanel" className="w-6 h-6" />
+              <span className="text-text-head text-sm font-bold">Prezentare exclusiva</span>
             </motion.div>
 
             <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-bold text-text-head leading-[1.05] mb-6">
@@ -345,7 +343,7 @@ export function AtlantisDemo() {
                 <span className="font-mono text-5xl font-bold text-[#00FF88] leading-none mb-4 block">
                   {step.num}
                 </span>
-                <div className="w-12 h-12 bg-[#FFD700] rounded-xl border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-accent rounded-xl border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] flex items-center justify-center mb-4">
                   <step.icon className="w-6 h-6 text-text-head" />
                 </div>
                 <h3 className="text-2xl font-bold text-text-head mb-2">{step.title}</h3>
@@ -574,11 +572,11 @@ export function AtlantisDemo() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8"
+            className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8"
           >
-            <div className="w-6 h-6 bg-[#FFD700] rounded-full flex items-center justify-center">
-              <span className="text-[8px] font-black text-[#003399]">A</span>
-            </div>
+            <img src="/demo/atlantis/logo-atlantis.webp" alt="Atlantis" className="w-6 h-6 rounded-full object-cover" />
+            <span className="text-white/40 text-sm">x</span>
+            <img src="/logo.svg" alt="GlassPanel" className="w-5 h-5" />
             <span className="text-white/90 text-sm font-medium">Atlantis x GlassPanel</span>
           </motion.div>
 
@@ -623,9 +621,14 @@ export function AtlantisDemo() {
             </a>
           </motion.div>
 
-          <p className="text-white/40 text-sm mt-8">
-            Prezentare pregatita de <a href="/" className="text-[#00FF88] hover:underline">GlassPanel.ro</a> pentru Varodimex SRL
-          </p>
+          <div className="flex items-center justify-center gap-2 mt-8">
+            <span className="text-white/40 text-sm">Prezentare pregatita de</span>
+            <a href="/" className="inline-flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+              <img src="/logo.svg" alt="GlassPanel" className="w-5 h-5" />
+              <span className="text-[#00FF88] text-sm font-bold">GlassPanel.ro</span>
+            </a>
+            <span className="text-white/40 text-sm">pentru Varodimex SRL</span>
+          </div>
         </div>
       </section>
 
