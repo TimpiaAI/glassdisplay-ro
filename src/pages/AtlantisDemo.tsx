@@ -102,12 +102,13 @@ function BeforeAfter() {
     <div
       ref={containerRef}
       className={`relative w-full aspect-[3/4] md:aspect-[1/1] rounded-3xl border-2 border-text-head shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden select-none ${dragging ? "cursor-grabbing" : "cursor-pointer"}`}
+      style={{ touchAction: "none" }}
       onMouseMove={(e) => dragging && handleMove(e.clientX)}
       onMouseDown={(e) => { setDragging(true); handleMove(e.clientX); }}
       onMouseUp={() => setDragging(false)}
       onMouseLeave={() => setDragging(false)}
-      onTouchMove={(e) => handleMove(e.touches[0].clientX)}
-      onTouchStart={(e) => { setDragging(true); handleMove(e.touches[0].clientX); }}
+      onTouchMove={(e) => { e.preventDefault(); handleMove(e.touches[0].clientX); }}
+      onTouchStart={(e) => { e.preventDefault(); setDragging(true); handleMove(e.touches[0].clientX); }}
       onTouchEnd={() => setDragging(false)}
     >
       {/* BEFORE — plain storefront (left = Acum) */}
@@ -627,6 +628,7 @@ export function AtlantisDemo() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
+      <div className="overflow-hidden px-4">
       <section className="max-w-5xl mx-auto py-20 md:py-28 bg-text-head relative rounded-[2rem] md:rounded-[2.5rem] border-2 border-[#00FF88] mb-24 md:mb-36 z-[5]">
         {/* Corner images */}
         <img
@@ -662,6 +664,7 @@ export function AtlantisDemo() {
           </p>
         </div>
       </section>
+      </div>
 
       <Footer />
     </>
