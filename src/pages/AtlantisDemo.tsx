@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { WordReveal } from "../components/WordReveal";
@@ -25,86 +26,119 @@ import {
   Image,
 } from "lucide-react";
 
+/* ── Scroll gallery images ─────────────────────────── */
+const galleryLeft = [
+  { src: "/demo/atlantis/atlantis_01_casa_cu_paine_closeup.webp", alt: "Casa cu Paine — closeup", label: "Casa cu Paine" },
+  { src: "/demo/atlantis/atlantis_03_paste_noapte_v2.webp", alt: "Paste seara", label: "Promoție seara" },
+  { src: "/demo/atlantis/atlantis_07_fresh_produce_splash_wide.webp", alt: "Fructe proaspete", label: "Produse proaspete" },
+  { src: "/demo/atlantis/atlantis_09_vara_inghetata_closeup.webp", alt: "Înghețată de vară", label: "Promo vară" },
+];
+const galleryMiddle = [
+  { src: "/demo/atlantis/atlantis_02_oferte_zilnice_closeup.webp", alt: "Oferte zilnice", label: "Oferte zilnice" },
+  { src: "/demo/atlantis/atlantis_08_produse_locale_noapte_wide.webp", alt: "Produse locale — noapte", label: "Produse locale" },
+  { src: "/demo/atlantis/atlantis_06_gratar_weekend_closeup.webp", alt: "Grătar weekend", label: "Weekend grătar" },
+];
+const galleryRight = [
+  { src: "/demo/atlantis/atlantis_06_gratar_weekend_noapte_wide.webp", alt: "Grătar weekend — noapte", label: "Seara — grătar" },
+  { src: "/demo/atlantis/atlantis_07_fresh_produce_splash_noapte_closeup.webp", alt: "Fructe proaspete — noapte", label: "Noapte — fresh" },
+  { src: "/demo/atlantis/atlantis_09_vara_inghetata_noapte_wide.webp", alt: "Înghețată — noapte", label: "Noapte — vară" },
+];
+const galleryRotations = [-2, 1.5, -1, 2.5, -1.5, 2];
+
+function GalleryCard({ src, alt, label, rotation }: { src: string; alt: string; label: string; rotation: number }) {
+  return (
+    <div
+      className="w-full rounded-2xl border-2 border-text-head overflow-hidden shadow-[4px_4px_0px_0px_#00FF88] bg-card relative"
+      style={{ transform: `rotate(${rotation}deg)` }}
+    >
+      <img src={src} alt={alt} loading="lazy" className="w-full h-auto block" />
+      <span className="absolute bottom-3 left-3 bg-white text-text-head text-[11px] font-bold tracking-wider px-2.5 py-1 rounded-sm border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] flex items-center gap-1.5">
+        <img src="/demo/atlantis/logo-atlantis.webp" alt="" className="w-4 h-4 rounded-full object-cover" />
+        {label}
+      </span>
+    </div>
+  );
+}
+
 /* ── Before / After slider ─────────────────────────── */
 function BeforeAfter() {
   const [pos, setPos] = useState(50);
+  const [dragging, setDragging] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const idleRef = useRef<number>();
 
   function handleMove(clientX: number) {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
     setPos((x / rect.width) * 100);
+    if (!hasInteracted) {
+      setHasInteracted(true);
+      if (idleRef.current) cancelAnimationFrame(idleRef.current);
+    }
   }
+
+  // Idle wiggle: move the whole slider back and forth until user interacts
+  useEffect(() => {
+    if (hasInteracted) return;
+    let start: number | null = null;
+    function wiggle(ts: number) {
+      if (!start) start = ts;
+      const t = (ts - start) / 1000;
+      const cycle = t % 4;
+      if (cycle < 2) {
+        setPos(50 + Math.sin(cycle * Math.PI) * 8);
+      }
+      idleRef.current = requestAnimationFrame(wiggle);
+    }
+    const timeout = setTimeout(() => {
+      idleRef.current = requestAnimationFrame(wiggle);
+    }, 1500);
+    return () => { clearTimeout(timeout); if (idleRef.current) cancelAnimationFrame(idleRef.current); };
+  }, [hasInteracted]);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-[3/4] md:aspect-[4/3] rounded-3xl border-2 border-text-head shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden cursor-col-resize select-none"
-      onMouseMove={(e) => e.buttons === 1 && handleMove(e.clientX)}
+      className={`relative w-full aspect-[3/4] md:aspect-[1/1] rounded-3xl border-2 border-text-head shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden select-none ${dragging ? "cursor-grabbing" : "cursor-pointer"}`}
+      onMouseMove={(e) => dragging && handleMove(e.clientX)}
+      onMouseDown={(e) => { setDragging(true); handleMove(e.clientX); }}
+      onMouseUp={() => setDragging(false)}
+      onMouseLeave={() => setDragging(false)}
       onTouchMove={(e) => handleMove(e.touches[0].clientX)}
-      onMouseDown={(e) => handleMove(e.clientX)}
+      onTouchStart={(e) => { setDragging(true); handleMove(e.touches[0].clientX); }}
+      onTouchEnd={() => setDragging(false)}
     >
-      {/* BEFORE — full image behind */}
+      {/* BEFORE — plain storefront (left = Acum) */}
       <img
-        src="/demo/atlantis/storefront-close.webp"
-        alt="Atlantis 10 — Înainte"
+        src="/demo/atlantis/before.webp"
+        alt="Atlantis 10 — Acum"
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
       />
 
-      {/* AFTER — clipped */}
+      {/* AFTER — video clipped from right (right = Cu Glass Display) */}
       <div
-        className="absolute inset-0 overflow-hidden"
+        className="absolute inset-0"
         style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
       >
-        <img
-          src="/demo/atlantis/storefront-close.webp"
-          alt="Atlantis 10 — După"
+        <video
+          src="/demo/atlantis/after.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          draggable={false}
         />
-        {/* Glass display overlay on the windows */}
-        <div className="absolute inset-0 flex items-end justify-center pointer-events-none">
-          <div className="w-[70%] mb-[22%] md:mb-[18%] relative">
-            {/* Transparent LED screen simulation */}
-            <div className="bg-black/30 backdrop-blur-[1px] border border-white/20 rounded-lg p-3 md:p-5 shadow-[0_0_30px_rgba(0,255,136,0.15)]">
-              {/* Top bar */}
-              <div className="flex items-center justify-between mb-2 md:mb-3">
-                <div className="flex items-center gap-1.5">
-                  <img src="/demo/atlantis/logo-atlantis.webp" alt="Atlantis" className="w-5 h-5 md:w-7 md:h-7 rounded-full object-cover border border-white/30" />
-                  <span className="text-white text-[8px] md:text-xs font-bold tracking-wider drop-shadow-lg">ATLANTIS 10</span>
-                </div>
-                <span className="text-[#00FF88] text-[7px] md:text-[10px] font-mono font-bold">LIVE</span>
-              </div>
-              {/* Promo content */}
-              <div className="bg-gradient-to-r from-[#00FF88]/20 to-[#FFD700]/20 rounded-md p-2 md:p-3 border border-white/10 mb-2">
-                <p className="text-white text-[8px] md:text-sm font-bold leading-tight drop-shadow-lg">
-                  Oferta zilei
-                </p>
-                <p className="text-[#00FF88] text-[10px] md:text-lg font-black leading-tight drop-shadow-lg">
-                  -30% Produse Casa cu Paine
-                </p>
-                <p className="text-white/80 text-[6px] md:text-[10px] font-medium">
-                  Pita din Ardeal + Cozonac traditional
-                </p>
-              </div>
-              {/* Bottom info */}
-              <div className="flex items-center justify-between">
-                <span className="text-white/70 text-[6px] md:text-[9px] font-mono">Program: 07:00 — 22:00</span>
-                <span className="text-[#00FF88] text-[6px] md:text-[9px] font-bold">glasspanel.ro</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Slider line */}
+      {/* Straight vertical slider line */}
       <div
         className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] z-20 pointer-events-none"
         style={{ left: `${pos}%` }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full border-2 border-text-head shadow-[3px_3px_0px_0px_#00FF88] flex items-center justify-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 bg-white rounded-full border-2 border-text-head shadow-[3px_3px_0px_0px_#00FF88] flex items-center justify-center">
           <span className="text-text-head text-sm font-bold">&#x2194;</span>
         </div>
       </div>
@@ -146,6 +180,12 @@ const contentIdeas = [
     desc: "Program, produse noi, evenimente. Informația potrivită la momentul potrivit.",
     color: "bg-[#6B9FFF]",
   },
+  {
+    icon: Smartphone,
+    title: "Control total de pe telefon",
+    desc: "Schimbi reclamele de pe telefon. AI-ul sugerează conținut în funcție de ora zilei și tipul de clienți. Se integrează cu sistemele deja folosite — ERP, POS, inventar.",
+    color: "bg-[#A78BFA]",
+  },
 ];
 
 /* ── Store locations ─────────────────────────── */
@@ -153,6 +193,56 @@ const stores = [
   "Casa Alba", "TQ", "3D", "Dacia", "Denar",
   "20", "10", "Delta", "DOR", "Dacapo",
 ];
+
+/* ── Scroll gallery section ─────────────────────────── */
+function AtlantisGallery() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const leftY = useTransform(scrollYProgress, [0, 1], ["10%", "-30%"]);
+  const middleY = useTransform(scrollYProgress, [0, 1], ["-20%", "10%"]);
+  const rightY = useTransform(scrollYProgress, [0, 1], ["15%", "-25%"]);
+
+  return (
+    <section
+      id="galerie"
+      ref={containerRef}
+      className="relative pt-24 pb-12 bg-alternate overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[3]"
+    >
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[150px] pointer-events-none" />
+
+      <div className="w-full px-[2px] grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-10 items-start">
+        {/* Left column — scrolls UP */}
+        <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: leftY }}>
+          {galleryLeft.map((img, i) => (
+            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} rotation={galleryRotations[i % galleryRotations.length]} />
+          ))}
+        </motion.div>
+
+        {/* Middle column — scrolls DOWN */}
+        <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: middleY }}>
+          {galleryMiddle.map((img, i) => (
+            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} rotation={galleryRotations[(i + 3) % galleryRotations.length]} />
+          ))}
+        </motion.div>
+
+        {/* Right column — scrolls UP (hidden on mobile) */}
+        <motion.div className="hidden md:flex flex-col gap-10" style={{ y: rightY }}>
+          {galleryRight.map((img, i) => (
+            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} rotation={galleryRotations[(i + 1) % galleryRotations.length]} />
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Fade-out gradients */}
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-alternate to-transparent pointer-events-none z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-alternate to-transparent pointer-events-none z-10" />
+    </section>
+  );
+}
 
 /* ── Main page ─────────────────────────── */
 export function AtlantisDemo() {
@@ -165,11 +255,25 @@ export function AtlantisDemo() {
 
   return (
     <>
+      <Helmet>
+        <title>Atlantis 10 — Simulare vitrina digitala | Glass Display</title>
+        <meta name="description" content="Simulare pentru magazinul Atlantis 10. Cum ar arata vitrina cu ecran LED transparent lipit direct pe geam." />
+        <link rel="canonical" href="https://glasspanel.ro/demo/atlantis" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://glasspanel.ro/demo/atlantis" />
+        <meta property="og:title" content="Atlantis 10 — Simulare vitrina digitala | Glass Display" />
+        <meta property="og:description" content="Simulare pentru magazinul Atlantis 10. Cum ar arata vitrina cu ecran LED transparent lipit direct pe geam." />
+        <meta property="og:image" content="https://glasspanel.ro/demo/atlantis/og.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Atlantis 10 — Simulare vitrina digitala | Glass Display" />
+        <meta name="twitter:description" content="Simulare pentru magazinul Atlantis 10. Cum ar arata vitrina cu ecran LED transparent lipit direct pe geam." />
+        <meta name="twitter:image" content="https://glasspanel.ro/demo/atlantis/og.jpg" />
+      </Helmet>
       <Navbar initialScrolled />
 
       {/* ═══ HERO ═══ */}
-      <section ref={parallaxRef} className="relative min-h-screen bg-primary flex items-center pt-28 md:pt-0 pb-16 md:pb-0 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <section ref={parallaxRef} className="relative min-h-screen bg-primary flex items-center pt-32 md:pt-32 pb-24 md:pb-32 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-8 md:gap-12 items-center">
           {/* Left — text */}
           <div>
             <motion.div
@@ -185,7 +289,7 @@ export function AtlantisDemo() {
             </motion.div>
 
             <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-bold text-text-head leading-[1.05] mb-6">
-              <WordReveal text="Atlantis, reimaginat digital." />
+              <WordReveal text="Asa ar arata vitrinele voastre." />
             </h1>
 
             <motion.p
@@ -194,81 +298,41 @@ export function AtlantisDemo() {
               transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-lg md:text-xl text-text-body max-w-lg leading-relaxed mb-8"
             >
-              Cum ar arata vitrinele celor <span className="text-accent font-bold">10 magazine Atlantis</span> cu ecrane LED transparente care atrag clienti de pe trotuar.
+              Simulare pentru magazinul <span className="text-accent font-bold">Atlantis 10</span>, cum ar arata vitrina cu ecran LED transparent lipit direct pe geam.
             </motion.p>
 
             <motion.a
-              href="#demo"
+              href="#galerie"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="inline-flex items-center gap-2 bg-[#00FF88] text-text-head px-8 py-4 rounded-full font-bold border-2 border-text-head shadow-[4px_4px_0px_0px_#FFD700] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_#FFD700] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_#FFD700] transition-all"
             >
-              Vezi simularea <ChevronRight className="w-5 h-5" />
+              Vezi exemple <ChevronRight className="w-5 h-5" />
             </motion.a>
           </div>
 
-          {/* Right — storefront image */}
+          {/* Right — before/after comparison */}
           <motion.div
             initial={{ opacity: 0, x: 40, rotate: 0 }}
             animate={{ opacity: 1, x: 0, rotate: 2 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="relative rounded-3xl md:rounded-[2.5rem] border-2 border-text-head shadow-[8px_8px_0px_0px_#00FF88] md:shadow-[12px_12px_0px_0px_#00FF88] overflow-hidden">
-              <img
-                src="/demo/atlantis/storefront-wide.webp"
-                alt="Magazin Atlantis 10 — Varodimex SRL"
-                className="w-full h-auto block"
-              />
-              {/* Gradient overlay bottom */}
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-text-head/80 to-transparent pointer-events-none" />
-              {/* Bottom info */}
-              <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6">
-                <span className="text-white font-bold text-lg md:text-xl block drop-shadow-lg">Atlantis 10</span>
-                <span className="text-white/70 text-sm drop-shadow-lg">SC Varodimex SRL — Bistrita</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ═══ BEFORE / AFTER ═══ */}
-      <section id="demo" className="py-20 md:py-32 bg-primary relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-text-head leading-[1.2] mb-4">
-              <WordReveal text="Trage sa vezi diferenta." className="justify-center" />
-            </h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg text-text-body max-w-xl mx-auto"
-            >
-              Aceeasi vitrina. Dar cu un ecran transparent care afiseaza promotii, produse si informatii — fara sa blocheze vizibilitatea in magazin.
-            </motion.p>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30, rotate: 0 }}
-            whileInView={{ opacity: 1, y: 0, rotate: -1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <BeforeAfter />
           </motion.div>
         </div>
       </section>
 
+      {/* ═══ SCROLL GALLERY ═══ */}
+      <AtlantisGallery />
+
       {/* ═══ CE POȚI AFIȘA ═══ */}
-      <section className="py-20 md:py-32 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[2]">
-        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-[#FFD700]/8 blur-[100px] pointer-events-none" />
+      <section id="ce-afisa" className="pt-12 md:pt-16 pb-20 md:pb-28 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[2]">
 
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16">
             <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-text-head leading-[1.2] mb-4">
-              <WordReveal text="Ce ar afisa Atlantis?" />
+              <WordReveal text="Puteti programa orice." />
             </h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -286,10 +350,10 @@ export function AtlantisDemo() {
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20, rotate: 0 }}
-                whileInView={{ opacity: 1, y: 0, rotate: [-1.5, 1, -1, 1.5][i] }}
+                whileInView={{ opacity: 1, y: 0, rotate: [-1.5, 1, -1, 1.5, 0][i] }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-card border-2 border-text-head rounded-3xl p-8 shadow-[6px_6px_0px_0px_#00FF88] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#00FF88] transition-all duration-300"
+                className={`bg-card border-2 border-text-head rounded-3xl p-8 shadow-[6px_6px_0px_0px_#00FF88] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#00FF88] transition-all duration-300${i === contentIdeas.length - 1 ? " md:col-span-2" : ""}`}
               >
                 <div className={`w-12 h-12 ${idea.color} rounded-xl border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] flex items-center justify-center mb-4`}>
                   <idea.icon className="w-6 h-6 text-text-head" />
@@ -307,7 +371,7 @@ export function AtlantisDemo() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16">
             <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-white leading-[1.2] mb-4">
-              <WordReveal text="Trei pasi. Doua ore. Gata." />
+              <WordReveal text="Care sunt pasii urmatori?" />
             </h2>
           </div>
 
@@ -562,73 +626,40 @@ export function AtlantisDemo() {
         </div>
       </section>
 
-      {/* ═══ CTA ═══ */}
-      <section className="py-20 md:py-32 bg-text-head relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-[#00FF88] -mt-12 z-[5]">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#FFD700]/10 blur-[150px] pointer-events-none" />
-
-        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8"
-          >
-            <img src="/demo/atlantis/logo-atlantis.webp" alt="Atlantis" className="w-6 h-6 rounded-full object-cover" />
-            <span className="text-white/40 text-sm">x</span>
-            <img src="/logo.svg" alt="GlassPanel" className="w-5 h-5" />
-            <span className="text-white/90 text-sm font-medium">Atlantis x GlassPanel</span>
-          </motion.div>
-
-          <h2 className="text-[clamp(2rem,5vw,4rem)] font-bold text-white leading-[1.1] mb-6">
-            <WordReveal text="Hai sa discutam." className="justify-center" />
-          </h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl text-white/70 max-w-xl mx-auto mb-10 leading-relaxed"
-          >
-            Putem incepe cu un singur magazin pilot si scala la toate cele 10 locatii. Fara angajament pe termen lung.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <a
-              href="https://wa.me/40787578482?text=Bun%C4%83!%20Am%20v%C4%83zut%20prezentarea%20pentru%20Atlantis%20%C8%99i%20vreau%20s%C4%83%20discut%C4%83m."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-full font-bold border-2 border-text-head shadow-[4px_4px_0px_0px_#141414] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_#141414] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_#141414] transition-all"
-            >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white shrink-0">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Scrie-ne pe WhatsApp
-            </a>
-
-            <a
-              href="mailto:hello@timpia.ai?subject=Atlantis%20x%20GlassPanel&body=Bun%C4%83!%20Am%20v%C4%83zut%20prezentarea%20%C8%99i%20vreau%20s%C4%83%20discut%C4%83m."
-              className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-full font-bold border-2 border-white/20 hover:bg-white/20 hover:-translate-y-1 transition-all"
-            >
-              Trimite un email
-            </a>
-          </motion.div>
-
-          <div className="flex items-center justify-center gap-2 mt-8">
-            <span className="text-white/40 text-sm">Prezentare pregatita de</span>
+      {/* ═══ FOOTER ═══ */}
+      <section className="max-w-5xl mx-auto py-20 md:py-28 bg-text-head relative rounded-[2rem] md:rounded-[2.5rem] border-2 border-[#00FF88] mb-24 md:mb-36 z-[5]">
+        {/* Corner images */}
+        <img
+          src="/demo/atlantis/atlantis_07_fresh_produce_splash_wide.webp"
+          alt=""
+          className="absolute -bottom-8 -left-8 w-36 md:w-52 rounded-2xl border-2 border-white/20 shadow-[4px_4px_0px_0px_#00FF88] object-cover aspect-[3/4]"
+          style={{ transform: "rotate(-6deg)" }}
+        />
+        <img
+          src="/demo/atlantis/atlantis_06_gratar_weekend_closeup.webp"
+          alt=""
+          className="absolute -top-8 -right-8 w-36 md:w-52 rounded-2xl border-2 border-white/20 shadow-[4px_4px_0px_0px_#00FF88] object-cover aspect-[3/4]"
+          style={{ transform: "rotate(5deg)" }}
+        />
+        <div className="max-w-xl mx-auto px-6 text-center relative z-10">
+          <div className="inline-flex items-center gap-3 bg-white border-2 border-text-head rounded-2xl px-6 py-4 shadow-[4px_4px_0px_0px_#00FF88] mb-8">
+            <img src="/demo/atlantis/logo-atlantis.webp" alt="Atlantis" className="w-9 h-9 rounded-full object-cover" />
+            <span className="text-text-head/30 text-lg font-light">&times;</span>
             <a href="/" className="inline-flex items-center gap-1.5 hover:opacity-80 transition-opacity">
-              <img src="/logo.svg" alt="GlassPanel" className="w-5 h-5" />
-              <span className="text-[#00FF88] text-sm font-bold">GlassPanel.ro</span>
+              <img src="/logo.svg" alt="GlassPanel" className="w-6 h-6" />
+              <span className="font-light text-text-head">Glass</span><span className="font-bold text-text-head">Display</span><span className="text-[0.6em] text-text-body align-super leading-none inline-block rotate-[-8deg]">&reg;</span>
             </a>
-            <span className="text-white/40 text-sm">pentru Varodimex SRL</span>
           </div>
+          <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-3">
+            Tot ce ai vazut aici poate fi live pe vitrinele voastre.
+          </p>
+          <p className="text-white/40 text-sm md:text-base leading-relaxed mb-10">
+            Cand sunteti gata, ne ocupam noi de tot — instalare, configurare, continut. Voi doar alegeti ce vreti sa afisati.
+          </p>
+
+          <p className="text-white/20 text-xs">
+            Pregatit pentru Varodimex SRL
+          </p>
         </div>
       </section>
 
