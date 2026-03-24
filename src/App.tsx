@@ -18,6 +18,7 @@ import { TermeniSiConditii } from "./pages/TermeniSiConditii";
 import { PoliticaConfidentialitate } from "./pages/PoliticaConfidentialitate";
 import { GDPR } from "./pages/GDPR";
 import { PoliticaCookie } from "./pages/PoliticaCookie";
+import { AtlantisDemo } from "./pages/AtlantisDemo";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -80,6 +81,7 @@ export default function App() {
             <Route path="/politica-de-confidentialitate" element={<PoliticaConfidentialitate />} />
             <Route path="/gdpr" element={<GDPR />} />
             <Route path="/politica-cookie" element={<PoliticaCookie />} />
+            <Route path="/demo/atlantis" element={<AtlantisDemo />} />
           </Routes>
         </PageTransition>
       </AnimatePresence>
