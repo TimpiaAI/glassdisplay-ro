@@ -37,9 +37,9 @@ import {
 
 /* ── Scroll gallery images ─────────────────────────── */
 const galleryLeft = [
-  { src: "/demo/areagym/areagym_fron_point.webp", alt: "Area Gym — vedere frontala", label: "Vedere frontala" },
+  { src: "/demo/areagym/areagym_fron_point.mp4", alt: "Area Gym — vedere frontala", label: "Vedere frontala", video: true },
   { src: "/demo/areagym/areagym-mall-v10-benchpress.webp", alt: "Benchpress — vitrina mall", label: "Benchpress" },
-  { src: "/demo/areagym/areagym-terrace-v6.webp", alt: "Terasa — alien display", label: "Terasa display" },
+  { src: "/demo/areagym/areagym-terrace-v6.mp4", alt: "Terasa — alien display", label: "Terasa display", video: true },
   { src: "/demo/areagym/areagym-glasspanel-v2-2.webp", alt: "Glass panel etaj 3", label: "Geam etaj 3" },
   { src: "/demo/areagym/areagym-mall-v9-energyball-2.webp", alt: "Energy ball — vitrina mall", label: "Energy ball" },
   { src: "/demo/areagym/areagym-balustrade-v11-1.webp", alt: "Balustrada — Vino la Area Gym", label: "Vino la sala" },
@@ -62,13 +62,17 @@ const galleryRight = [
 ];
 const galleryRotations = [-2, 1.5, -1, 2.5, -1.5, 2];
 
-function GalleryCard({ src, alt, label, rotation }: { src: string; alt: string; label: string; rotation: number }) {
+function GalleryCard({ src, alt, label, rotation, video }: { src: string; alt: string; label: string; rotation: number; video?: boolean }) {
   return (
     <div
       className="w-full rounded-2xl border-2 border-text-head overflow-hidden shadow-[4px_4px_0px_0px_#00FF88] bg-card relative"
       style={{ transform: `rotate(${rotation}deg)` }}
     >
-      <img src={src} alt={alt} loading="lazy" className="w-full h-auto block" />
+      {video ? (
+        <video src={src} autoPlay loop muted playsInline className="w-full h-auto block" />
+      ) : (
+        <img src={src} alt={alt} loading="lazy" className="w-full h-auto block" />
+      )}
       <span className="absolute bottom-3 left-3 bg-white text-text-head text-[11px] font-bold tracking-wider px-2.5 py-1 rounded-sm border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] flex items-center gap-1.5">
         <img src="/demo/areagym/logo-areagym.png" alt="" className="w-4 h-4 rounded-full object-cover" />
         {label}
@@ -177,31 +181,31 @@ const contentIdeas = [
   {
     icon: Tag,
     title: "Abonamente & Oferte",
-    desc: "Afișează promoțiile curente, abonamente avantajoase și oferte de sezon direct pe vitrina sălii. Clienții văd prețurile de pe stradă.",
+    desc: "Promoțiile curente, abonamente și oferte de sezon. Vizibile direct de pe stradă, fără ca cineva să intre în sală.",
     color: "bg-[#00FF88]",
   },
   {
     icon: Calendar,
     title: "Program clase & antrenamente",
-    desc: "Orarul claselor de grup, sesiuni de personal training și program de funcționare — actualizate automat, live.",
+    desc: "Orarul claselor de grup, personal training și programul sălii. Se actualizează singur, fără intervenție manuală. Poți programa postări în avans.",
     color: "bg-[#FFD700]",
   },
   {
     icon: Users,
     title: "Antrenori & spotlight",
-    desc: "Prezintă echipa de antrenori profesioniști, comunicativi, mereu pregătiți să motiveze și să îndrume spre rezultate.",
+    desc: "Prezintă echipa de antrenori cu nume, specializare și disponibilitate. Fiecare membru contează.",
     color: "bg-[#00C9FF]",
   },
   {
     icon: Trophy,
     title: "Facilitați & echipamente",
-    desc: "Aparate de ultima generație: Hoist, Prime, Nebula, Atlantis, Cybex, Eleiko — afișate cu video-uri live pe vitrina.",
+    desc: "Hoist, Prime, Nebula, Atlantis, Cybex, Eleiko. Arată ce te diferențiază, direct pe geam, cu video live.",
     color: "bg-[#A78BFA]",
   },
   {
     icon: Smartphone,
     title: "Control total de pe telefon",
-    desc: "Schimbi reclamele de pe telefon pentru ambele locații. AI-ul sugerează conținut în funcție de oră, sezon și tipul de clienți.",
+    desc: "Schimbi conținutul de pe telefon, pentru ambele locații simultan. Sugestii automate în funcție de oră, sezon și public.",
     color: "bg-[#00FF88]",
   },
 ];
@@ -552,19 +556,19 @@ function AreaGymGallery() {
       <div className="w-full px-[2px] grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-10 items-start">
         <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: leftY }}>
           {galleryLeft.map((img, i) => (
-            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} rotation={galleryRotations[i % galleryRotations.length]} />
+            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} video={(img as any).video} rotation={galleryRotations[i % galleryRotations.length]} />
           ))}
         </motion.div>
 
         <motion.div className="flex flex-col gap-3 md:gap-10" style={{ y: middleY }}>
           {galleryMiddle.map((img, i) => (
-            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} rotation={galleryRotations[(i + 3) % galleryRotations.length]} />
+            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} video={(img as any).video} rotation={galleryRotations[(i + 3) % galleryRotations.length]} />
           ))}
         </motion.div>
 
         <motion.div className="hidden md:flex flex-col gap-10" style={{ y: rightY }}>
           {galleryRight.map((img, i) => (
-            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} rotation={galleryRotations[(i + 1) % galleryRotations.length]} />
+            <GalleryCard key={i} src={img.src} alt={img.alt} label={img.label} video={(img as any).video} rotation={galleryRotations[(i + 1) % galleryRotations.length]} />
           ))}
         </motion.div>
       </div>
@@ -583,6 +587,18 @@ export function AreaGymDemo() {
     offset: ["start start", "end start"],
   });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
+  // Track page visit
+  useEffect(() => {
+    const key = "areagym-visit-tracked";
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    fetch("/api/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ page: "/demo/areagym" }),
+    }).catch(() => {});
+  }, []);
 
   return (
     <>
@@ -620,7 +636,7 @@ export function AreaGymDemo() {
             </motion.div>
 
             <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-bold text-text-head leading-[1.05] mb-6">
-              <WordReveal text="Asa ar arata vitrina salii voastre." />
+              <WordReveal text="Asa ar arata vitrina" /> <span style={{ fontFamily: '"Ethnocentric", sans-serif', fontWeight: 600 }} className="text-[#73F3EE]">Area Gym</span>
             </h1>
 
             <motion.p
@@ -672,7 +688,7 @@ export function AreaGymDemo() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-lg text-text-body max-w-xl"
             >
-              Oferă antrenamentului tău mai multă varietate ca niciodată. Conținut care se schimbă automat, programat sau manual — de pe telefon, pentru ambele locații.
+              Conținut care se schimbă singur, programat sau manual. De pe telefon, pentru ambele locații. Poți programa postări în avans.
             </motion.p>
           </div>
 
@@ -698,7 +714,7 @@ export function AreaGymDemo() {
       </section>
 
       {/* ═══ ALEGE AMPLASAMENTELE ═══ */}
-      <section className="py-16 md:pt-16 md:pb-28 bg-alternate relative overflow-hidden -mt-12 z-[4] md:min-h-screen md:flex md:items-center">
+      <section className="py-16 md:pt-16 md:pb-28 bg-[#FAFAFA] relative overflow-hidden -mt-12 z-[4] md:min-h-screen md:flex md:items-center">
         <div className="max-w-6xl mx-auto px-6 w-full">
           <motion.div
             initial={{ opacity: 0, y: 30, rotate: 0 }}
@@ -946,7 +962,7 @@ export function AreaGymDemo() {
       </section>
 
       {/* ═══ FOOTER CTA ═══ */}
-      <div className="overflow-hidden px-4">
+      <div className="overflow-visible px-4 pt-16">
       <section className="max-w-5xl mx-auto py-20 md:py-28 bg-[#676768] relative rounded-[2rem] md:rounded-[2.5rem] border-2 border-[#00FF88] mb-24 md:mb-36 z-[7]">
         {/* Corner images */}
         <img
