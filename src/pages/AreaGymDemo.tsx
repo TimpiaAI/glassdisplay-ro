@@ -945,64 +945,6 @@ export function AreaGymDemo() {
         </div>
       </section>
 
-      {/* ═══ LOCAȚII ═══ */}
-      <section className="py-20 md:py-28 bg-alternate relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] border-t-2 border-x-2 border-text-head -mt-12 z-[6]">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-text-head leading-[1.2] mb-4">
-              <WordReveal text="Locatii Area Gym" className="justify-center" />
-            </h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg text-text-body"
-            >
-              Găsește locația aproape de tine
-            </motion.p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                city: "Baia Mare",
-                address: "Strada Andrei Mureșanu Nr. 8, Baia Mare 430312",
-                schedule: ["Luni-Vineri: 06:00 - 22:00", "Sâmbătă-Duminică: 10:00 - 18:00"],
-              },
-              {
-                city: "Brașov",
-                address: "Bulevardul Gării 3A, Unirea Shopping Center, Brașov 500148",
-                schedule: ["Luni-Vineri: 06:00 - 22:00", "Sâmbătă-Duminică: 10:00 - 22:00"],
-              },
-            ].map((loc, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20, rotate: 0 }}
-                whileInView={{ opacity: 1, y: 0, rotate: [-1.5, 1][i] }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-white border-2 border-text-head rounded-[2rem] shadow-[6px_6px_0px_0px_#00FF88] p-8"
-              >
-                <div className="w-12 h-12 bg-[#00FF88] rounded-xl border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] flex items-center justify-center mb-4">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-text-head mb-2">Area Gym — {loc.city}</h3>
-                <p className="text-text-body leading-relaxed mb-4">{loc.address}</p>
-                <div className="space-y-1">
-                  {loc.schedule.map((s, j) => (
-                    <div key={j} className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#00FF88]" />
-                      <span className="text-sm text-text-body">{s}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ═══ FOOTER CTA ═══ */}
       <div className="overflow-hidden px-4">
       <section className="max-w-5xl mx-auto py-20 md:py-28 bg-[#676768] relative rounded-[2rem] md:rounded-[2.5rem] border-2 border-[#00FF88] mb-24 md:mb-36 z-[7]">
