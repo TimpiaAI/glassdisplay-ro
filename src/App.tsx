@@ -20,6 +20,7 @@ import { GDPR } from "./pages/GDPR";
 import { PoliticaCookie } from "./pages/PoliticaCookie";
 import { AtlantisDemo } from "./pages/AtlantisDemo";
 import { AreaGymDemo } from "./pages/AreaGymDemo";
+import { AreaGymOferta } from "./pages/AreaGymOferta";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -84,6 +85,7 @@ export default function App() {
             <Route path="/politica-cookie" element={<PoliticaCookie />} />
             <Route path="/demo/atlantis" element={<AtlantisDemo />} />
             <Route path="/demo/areagym" element={<AreaGymDemo />} />
+            <Route path="/demo/areagym/oferta" element={<AreaGymOferta />} />
           </Routes>
         </PageTransition>
       </AnimatePresence>
