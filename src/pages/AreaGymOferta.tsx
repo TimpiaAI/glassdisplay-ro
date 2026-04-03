@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
@@ -38,6 +38,96 @@ import {
 /* ── ease shorthand ─────────────────────────── */
 const ease = [0.16, 1, 0.3, 1] as const;
 
+/* ── Hero cards ─────────────────────────── */
+
+/* ── Before / After slider ─────────────────────────── */
+function BeforeAfter() {
+  const [pos, setPos] = useState(50);
+  const [dragging, setDragging] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const idleRef = useRef<number>();
+
+  function handleMove(clientX: number) {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    setPos((x / rect.width) * 100);
+    if (!hasInteracted) {
+      setHasInteracted(true);
+      if (idleRef.current) cancelAnimationFrame(idleRef.current);
+    }
+  }
+
+  useEffect(() => {
+    if (hasInteracted) return;
+    let start: number | null = null;
+    function wiggle(ts: number) {
+      if (!start) start = ts;
+      const t = (ts - start) / 1000;
+      const cycle = t % 4;
+      if (cycle < 2) {
+        setPos(50 + Math.sin(cycle * Math.PI) * 8);
+      }
+      idleRef.current = requestAnimationFrame(wiggle);
+    }
+    const timeout = setTimeout(() => {
+      idleRef.current = requestAnimationFrame(wiggle);
+    }, 1500);
+    return () => { clearTimeout(timeout); if (idleRef.current) cancelAnimationFrame(idleRef.current); };
+  }, [hasInteracted]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`relative w-full aspect-[9/16] max-h-[90vh] rounded-3xl border-2 border-text-head shadow-[8px_8px_0px_0px_#00FF88] overflow-hidden select-none ${dragging ? "cursor-grabbing" : "cursor-pointer"}`}
+      style={{ touchAction: "none" }}
+      onMouseMove={(e) => dragging && handleMove(e.clientX)}
+      onMouseDown={(e) => { setDragging(true); handleMove(e.clientX); }}
+      onMouseUp={() => setDragging(false)}
+      onMouseLeave={() => setDragging(false)}
+      onTouchMove={(e) => { e.preventDefault(); handleMove(e.touches[0].clientX); }}
+      onTouchStart={(e) => { e.preventDefault(); setDragging(true); handleMove(e.touches[0].clientX); }}
+      onTouchEnd={() => setDragging(false)}
+    >
+      <video
+        src="/demo/areagym/after.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        draggable={false}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+      >
+        <img
+          src="/demo/areagym/before.webp"
+          alt="Area Gym — Acum"
+          className="absolute inset-0 w-full h-full object-cover"
+          draggable={false}
+        />
+      </div>
+      <div
+        className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] z-20 pointer-events-none"
+        style={{ left: `${pos}%` }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 bg-white rounded-full border-2 border-text-head shadow-[3px_3px_0px_0px_#00FF88] flex items-center justify-center">
+          <span className="text-text-head text-sm font-bold">&#x2194;</span>
+        </div>
+      </div>
+      <span className="absolute top-4 left-4 bg-white/90 text-text-head text-xs font-bold px-3 py-1.5 rounded-full border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] z-10">
+        Acum
+      </span>
+      <span className="absolute top-4 right-4 bg-[#00FF88] text-text-head text-xs font-bold px-3 py-1.5 rounded-full border-2 border-text-head shadow-[2px_2px_0px_0px_#141414] z-10">
+        Cu Glass Display
+      </span>
+    </div>
+  );
+}
+
 /* ── Main page ─────────────────────────── */
 export function AreaGymOferta() {
   useEffect(() => {
@@ -55,15 +145,19 @@ export function AreaGymOferta() {
     <>
       <Helmet>
         <title>Area Gym Brașov — Ofertă personalizată | Glass Display</title>
-        <meta name="description" content="Ofertă personalizată pentru Area Gym Brașov. Ecran LED transparent P6 + P16 pentru vitrinele alese." />
+        <meta name="description" content="Ofertă personalizată pentru Area Gym Brașov. Ecrane LED transparente pentru vitrinele alese." />
         <meta name="robots" content="noindex, nofollow" />
+        <meta property="og:title" content="Area Gym Brașov — Ofertă personalizată | Glass Display" />
+        <meta property="og:description" content="Ofertă personalizată pentru Area Gym Brașov. Ecrane LED transparente pentru vitrinele alese." />
+        <meta property="og:image" content="https://glassdisplay.ro/demo/areagym/oferta/og-oferta.png" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <Navbar initialScrolled />
 
       {/* ═══════════════════════════════════════════════════
           HERO — Personalized, confident, premium
       ═══════════════════════════════════════════════════ */}
-      <section className="relative min-h-[80vh] bg-primary flex items-center pt-32 md:pt-32 pb-16 md:pb-24 overflow-hidden">
+      <section className="relative min-h-[80vh] bg-primary flex items-center pt-20 md:pt-32 pb-16 md:pb-24 overflow-hidden">
         <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#00FF88]/5 blur-[150px] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 w-full">
@@ -92,7 +186,7 @@ export function AreaGymOferta() {
             className="text-lg md:text-xl text-text-body max-w-2xl leading-relaxed mb-10"
           >
             Ai văzut cum arată. Acum să vorbim despre <span className="text-text-head font-bold">cât costă</span>, de ce
-            merită, și cum se plătește singură investiția. Totul defalcat, fără surprize.
+            merită, și cum se plătește singură investiția.
           </motion.p>
 
           {/* Two chosen location previews */}
@@ -100,23 +194,23 @@ export function AreaGymOferta() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5, ease }}
-            className="grid grid-cols-2 gap-5 max-w-3xl"
+            className="grid grid-cols-1 gap-5 max-w-3xl md:grid-cols-2"
           >
             <div className="relative rounded-2xl border-2 border-text-head overflow-hidden shadow-[4px_4px_0px_0px_#00FF88] bg-card" style={{ transform: "rotate(-1.5deg)" }}>
-              <img src="/demo/areagym/areagym-mall-v10-benchpress.webp" alt="Vitrina intrare" className="w-full aspect-[4/3] object-cover" />
+              <video src="/demo/areagym/areagym-front-point.mp4" autoPlay loop muted playsInline className="w-full aspect-[4/3] object-cover" />
               <div className="absolute bottom-2 left-2 right-2">
                 <div className="bg-white/90 backdrop-blur-sm border-2 border-text-head rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_0px_#141414] flex items-center gap-1.5">
                   <MapPin className="w-3 h-3 text-[#00FF88] shrink-0" />
-                  <span className="text-[10px] md:text-xs font-bold text-text-head">Vitrina intrare — P6</span>
+                  <span className="text-[10px] md:text-xs font-bold text-text-head">Vitrina intrare</span>
                 </div>
               </div>
             </div>
             <div className="relative rounded-2xl border-2 border-text-head overflow-hidden shadow-[4px_4px_0px_0px_#FFD700] bg-card" style={{ transform: "rotate(1.5deg)" }}>
-              <img src="/demo/areagym/areagym-balustrade-v11-1.webp" alt="Panouri balcon" className="w-full aspect-[4/3] object-cover" />
+              <video src="/demo/areagym/areagym-terrace-v6.mp4" autoPlay loop muted playsInline className="w-full aspect-[4/3] object-cover" />
               <div className="absolute bottom-2 left-2 right-2">
                 <div className="bg-white/90 backdrop-blur-sm border-2 border-text-head rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_0px_#141414] flex items-center gap-1.5">
                   <MapPin className="w-3 h-3 text-[#FFD700] shrink-0" />
-                  <span className="text-[10px] md:text-xs font-bold text-text-head">Panouri balcon — P16</span>
+                  <span className="text-[10px] md:text-xs font-bold text-text-head">Panouri balcon</span>
                 </div>
               </div>
             </div>
@@ -228,25 +322,22 @@ export function AreaGymOferta() {
               className="bg-card border-2 border-text-head rounded-3xl overflow-hidden shadow-[6px_6px_0px_0px_#00FF88]"
             >
               <div className="relative">
-                <img src="/demo/areagym/areagym-mall-v10-benchpress.webp" alt="Vitrina intrare" className="w-full aspect-[16/10] object-cover" />
+                <video src="/demo/areagym/areagym-front-point.mp4" autoPlay loop muted playsInline className="w-full aspect-[16/10] object-cover" />
                 <div className="absolute top-3 left-3 bg-[#00FF88] border-2 border-text-head rounded-full px-3 py-1 shadow-[2px_2px_0px_0px_#141414]">
                   <span className="text-xs font-bold text-text-head flex items-center gap-1"><Star className="w-3 h-3" /> Preferata ta</span>
-                </div>
-                <div className="absolute top-3 right-3 bg-white border-2 border-text-head rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_0px_#141414]">
-                  <span className="text-xs font-bold text-text-head font-mono">P6</span>
                 </div>
               </div>
               <div className="p-6 md:p-8">
                 <h3 className="text-xl md:text-2xl font-bold text-text-head mb-2">Vitrina de la intrare</h3>
                 <p className="text-sm text-text-label font-mono mb-4">Etaj 2 — interior, vizibilă din lift</p>
                 <p className="text-text-body leading-relaxed mb-6">
-                  Prima chestie pe care o vede oricine iese din lift. Ecran LED cu rezoluție mare (P6),
-                  perfect pentru conținut detaliat — oferte, antrenori, clase, video. Vizibil clar de la 6m distanță.
+                  Prima chestie pe care o vede oricine iese din lift. Ecran LED cu rezoluție mare,
+                  perfect pentru conținut detaliat — oferte, antrenori, clase, video.
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { label: "Pixel Pitch", value: "6mm" },
-                    { label: "Transparență", value: "≥65%" },
+                    { label: "Pixel Pitch", value: "8mm" },
+                    { label: "Transparență", value: "≥85%" },
                     { label: "Luminozitate", value: "4,000 cd/m²" },
                     { label: "Refresh Rate", value: "3,840 Hz" },
                     { label: "Cabinet", value: "240×1200mm" },
@@ -270,17 +361,14 @@ export function AreaGymOferta() {
               className="bg-card border-2 border-text-head rounded-3xl overflow-hidden shadow-[6px_6px_0px_0px_#FFD700]"
             >
               <div className="relative">
-                <img src="/demo/areagym/areagym-balustrade-v14-2.webp" alt="Panouri balcon" className="w-full aspect-[16/10] object-cover" />
-                <div className="absolute top-3 right-3 bg-white border-2 border-text-head rounded-lg px-3 py-1.5 shadow-[2px_2px_0px_0px_#141414]">
-                  <span className="text-xs font-bold text-text-head font-mono">P16</span>
-                </div>
+                <video src="/demo/areagym/areagym-terrace-v6.mp4" autoPlay loop muted playsInline className="w-full aspect-[16/10] object-cover" />
               </div>
               <div className="p-6 md:p-8">
                 <h3 className="text-xl md:text-2xl font-bold text-text-head mb-2">Panourile de la balcon</h3>
                 <p className="text-sm text-text-label font-mono mb-4">Etaj 2 — exterior, vizibile de la stradă</p>
                 <p className="text-text-body leading-relaxed mb-6">
                   Două panouri pe geamurile de la etajul 2, vizibile direct de jos — de pe stradă, din parcare, de la intrarea în mall.
-                  P16 — ideal pentru text mare și branding de impact, vizibil de la 16+ metri distanță.
+                  Ideal pentru text mare și branding de impact.
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   {[
@@ -348,12 +436,12 @@ export function AreaGymOferta() {
                   <div className="w-7 h-7 bg-[#00FF88] rounded-lg flex items-center justify-center">
                     <Maximize className="w-3.5 h-3.5 text-white" />
                   </div>
-                  <span className="text-white font-bold text-sm">Simulare dimensiuni — Vitrina intrare (P6)</span>
+                  <span className="text-white font-bold text-sm">Simulare dimensiuni — Vitrina intrare</span>
                 </div>
                 <span className="text-white/40 text-xs font-mono hidden md:block">7 × 240mm = 1,680mm lățime · 2 × 1,200mm = 2,400mm înălțime</span>
               </div>
               <div className="p-3 bg-white/[0.02]">
-                <img src="/demo/areagym/oferta/dimensiuni-intrare.png" alt="Simulare dimensiuni P6" className="w-full rounded-lg border border-white/10" />
+                <img src="/demo/areagym/oferta/dimensiuni-intrare.png" alt="Simulare dimensiuni vitrina intrare" className="w-full rounded-lg border border-white/10" />
               </div>
             </motion.div>
 
@@ -369,12 +457,12 @@ export function AreaGymOferta() {
                   <div className="w-7 h-7 bg-[#FFD700] rounded-lg flex items-center justify-center">
                     <Maximize className="w-3.5 h-3.5 text-white" />
                   </div>
-                  <span className="text-white font-bold text-sm">Simulare dimensiuni — Panouri balcon (P16)</span>
+                  <span className="text-white font-bold text-sm">Simulare dimensiuni — Panouri balcon</span>
                 </div>
                 <span className="text-white/40 text-xs font-mono hidden md:block">20 panouri × 240mm · 1,000mm înălțime · 2 secțiuni</span>
               </div>
               <div className="p-3 bg-white/[0.02]">
-                <img src="/demo/areagym/oferta/dimensiuni-balcon.png" alt="Simulare dimensiuni P16" className="w-full rounded-lg border border-white/10" />
+                <img src="/demo/areagym/oferta/dimensiuni-balcon.png" alt="Simulare dimensiuni panouri balcon" className="w-full rounded-lg border border-white/10" />
               </div>
             </motion.div>
           </div>
@@ -391,12 +479,12 @@ export function AreaGymOferta() {
             >
               <div className="px-5 py-4 border-b border-white/10 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#00FF88]" />
-                <span className="text-white font-bold text-sm">Fișă tehnică P6 — Vitrina intrare</span>
+                <span className="text-white font-bold text-sm">Fișă tehnică — Vitrina intrare</span>
               </div>
               <div className="p-4">
                 <img
                   src="/demo/areagym/oferta/p6-specs.png"
-                  alt="Specificații tehnice P6"
+                  alt="Specificații tehnice vitrina intrare"
                   className="w-full rounded-xl"
                 />
               </div>
@@ -427,12 +515,12 @@ export function AreaGymOferta() {
             >
               <div className="px-5 py-4 border-b border-white/10 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#FFD700]" />
-                <span className="text-white font-bold text-sm">Fișă tehnică P16 — Panouri balcon</span>
+                <span className="text-white font-bold text-sm">Fișă tehnică — Panouri balcon</span>
               </div>
               <div className="p-4">
                 <img
                   src="/demo/areagym/oferta/p16-specs.png"
-                  alt="Specificații tehnice P16"
+                  alt="Specificații tehnice panouri balcon"
                   className="w-full rounded-xl"
                 />
               </div>
@@ -454,36 +542,8 @@ export function AreaGymOferta() {
             </motion.div>
           </div>
 
-          {/* Delivery + Technical drawing — 2 columns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Delivery */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2, ease }}
-              className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden"
-            >
-              <div className="px-5 py-4 border-b border-white/10 flex items-center gap-2">
-                <Truck className="w-4 h-4 text-[#00C9FF]" />
-                <span className="text-white font-bold text-sm">Livrare & ambalaj profesional</span>
-              </div>
-              <div className="p-4">
-                <img
-                  src="/demo/areagym/oferta/delivery.png"
-                  alt="Flight case & wooden case packaging"
-                  className="w-full rounded-xl bg-white"
-                />
-              </div>
-              <div className="px-5 pb-5">
-                <p className="text-sm text-white/50 leading-relaxed">
-                  Transport aerian internațional (air freight). Panourile ajung în <span className="text-white/80 font-bold">flight case</span> profesional
-                  sau <span className="text-white/80 font-bold">ladă din lemn</span> — protejate complet. Livrare 2-3 săptămâni de la confirmare.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Technical drawing */}
+          {/* Technical drawing */}
+          <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -493,13 +553,13 @@ export function AreaGymOferta() {
             >
               <div className="px-5 py-4 border-b border-white/10 flex items-center gap-2">
                 <Grid3x3 className="w-4 h-4 text-[#00FF88]" />
-                <span className="text-white font-bold text-sm">Desen tehnic — modul individual P6</span>
+                <span className="text-white font-bold text-sm">Desen tehnic — modul individual</span>
               </div>
-              <div className="p-4 flex justify-center">
+              <div className="p-4">
                 <img
                   src="/demo/areagym/oferta/p6-drawing.png"
-                  alt="Desen tehnic modul P6"
-                  className="max-h-[350px] rounded-xl bg-white"
+                  alt="Desen tehnic modul"
+                  className="w-full rounded-xl bg-white"
                 />
               </div>
               <div className="px-5 pb-5">
@@ -538,9 +598,9 @@ export function AreaGymOferta() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-12">
             {[
               { value: 10, suffix: "+ ani", label: "Durată de viață", sublabel: "100,000 ore de funcționare", icon: Clock, color: "bg-[#00FF88]" },
-              { value: 4, suffix: ".25€", label: "Cost pe zi", sublabel: "pentru ambele vitrine", icon: Coffee, color: "bg-[#FFD700]" },
+              { value: 3, suffix: ".70€", label: "Cost pe zi", sublabel: "pentru ambele vitrine", icon: Coffee, color: "bg-[#FFD700]" },
               { value: 0, suffix: "€", label: "Costuri lunare", sublabel: "zero, nada, nimic", icon: Shield, color: "bg-[#00C9FF]" },
-              { value: 129, suffix: "€/lună", label: "Echivalent lunar", sublabel: "mai puțin de 3 abonamente", icon: Dumbbell, color: "bg-[#A78BFA]" },
+              { value: 112, suffix: "€/lună", label: "Echivalent lunar", sublabel: "mai puțin de 3 abonamente", icon: Dumbbell, color: "bg-[#A78BFA]" },
             ].map(({ value, suffix, label, sublabel, icon: Icon, color }, i) => (
               <motion.div
                 key={i}
@@ -625,23 +685,24 @@ export function AreaGymOferta() {
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-sm font-bold text-text-head flex items-center gap-2">
                     <img src="/logo.svg" alt="" className="w-4 h-4" />
-                    Glass Display — P6 + P16
+                    Glass Display
                   </span>
                   <span className="text-xs text-[#00FF88] font-bold font-mono">plată unică</span>
                 </div>
-                <div className="relative h-10 bg-alternate rounded-lg border-2 border-[#00FF88] overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "13%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.7, ease }}
-                    className="absolute inset-y-0 left-0 bg-[#00FF88]/20 border-r-2 border-[#00FF88] rounded-lg flex items-center justify-end pr-3"
-                  >
-                    <span className="text-sm font-bold text-text-head font-mono whitespace-nowrap">15,500€</span>
-                  </motion.div>
+                <div className="flex items-center gap-3">
+                  <div className="relative h-10 bg-alternate rounded-lg border-2 border-[#00FF88] overflow-hidden flex-1">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "100%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.7, ease }}
+                      className="absolute inset-y-0 left-0 bg-[#00FF88]/20 rounded-lg"
+                    />
+                  </div>
+                  <span className="text-lg font-bold text-text-head font-mono whitespace-nowrap">13,500€</span>
                 </div>
                 <p className="text-xs text-text-label mt-2">
-                  O dată. Fără contract. Fără abonament. Fără costuri ascunse. <span className="text-[#00FF88] font-bold">10+ ani de publicitate non-stop.</span>
+                  <span className="text-[#00FF88] font-bold">10+ ani de publicitate non-stop.</span>
                 </p>
               </motion.div>
             </div>
@@ -705,11 +766,11 @@ export function AreaGymOferta() {
               <div className="mb-6">
                 <p className="text-sm text-text-label font-bold uppercase tracking-wider mb-2">Pachet Esențial</p>
                 <h3 className="text-2xl md:text-3xl font-bold text-text-head">Vitrina intrare</h3>
-                <p className="text-text-body text-sm mt-1">Doar ecranul P6 — la lift, etaj 2</p>
+                <p className="text-text-body text-sm mt-1">Doar ecranul de la intrare — la lift, etaj 2</p>
               </div>
 
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="text-4xl md:text-5xl font-bold text-text-head font-mono">10,500</span>
+                <span className="text-4xl md:text-5xl font-bold text-text-head font-mono">9,000</span>
                 <span className="text-xl text-text-body font-bold">€</span>
               </div>
               <p className="text-text-label text-sm mb-6">plată unică, fără TVA</p>
@@ -717,18 +778,17 @@ export function AreaGymOferta() {
               <div className="bg-alternate rounded-xl p-4 mb-6 border border-border-subtle">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs text-text-label">Cost pe zi</span>
-                  <span className="text-sm font-bold text-text-head font-mono">2.88€/zi</span>
+                  <span className="text-sm font-bold text-text-head font-mono">2.47€/zi</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-text-label">Echivalent lunar</span>
-                  <span className="text-sm font-bold text-text-head font-mono">~87€/lună</span>
+                  <span className="text-sm font-bold text-text-head font-mono">~75€/lună</span>
                 </div>
               </div>
 
               <ul className="space-y-3 mb-8">
                 {[
-                  "1× ecran LED transparent P6",
-                  "Transport internațional (air freight)",
+                  "1× ecran LED transparent",
                   "Instalare profesională pe loc",
                   "Acces platformă de management",
                   "Suport tehnic 12 luni",
@@ -741,7 +801,7 @@ export function AreaGymOferta() {
               </ul>
 
               <a
-                href="https://wa.me/40787578482?text=Salut!%20Vreau%20pachetul%20Esential%20(P6%20intrare)%20pentru%20Area%20Gym."
+                href="https://wa.me/40787578482?text=Salut!%20Vreau%20pachetul%20Esential%20pentru%20Area%20Gym."
                 className="block w-full text-center bg-white border-2 border-text-head text-text-head px-6 py-3.5 rounded-full font-bold shadow-[3px_3px_0px_0px_#E5E5E5] hover:-translate-y-1 hover:shadow-[5px_5px_0px_0px_#E5E5E5] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#E5E5E5] transition-all"
               >
                 Alege pachetul esențial
@@ -764,17 +824,17 @@ export function AreaGymOferta() {
               <div className="mb-6 pt-2">
                 <p className="text-sm text-[#00FF88] font-bold uppercase tracking-wider mb-2">Pachet Complet</p>
                 <h3 className="text-2xl md:text-3xl font-bold text-text-head">Ambele vitrine</h3>
-                <p className="text-text-body text-sm mt-1">P6 la intrare + P16 la balcon</p>
+                <p className="text-text-body text-sm mt-1">Ecran la intrare + panouri la balcon</p>
               </div>
 
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="text-4xl md:text-5xl font-bold text-text-head font-mono">15,500</span>
+                <span className="text-4xl md:text-5xl font-bold text-text-head font-mono">13,500</span>
                 <span className="text-xl text-text-body font-bold">€</span>
               </div>
               <div className="flex items-center gap-2 mb-6">
                 <p className="text-text-label text-sm">plată unică, fără TVA</p>
                 <span className="bg-[#00FF88]/10 border border-[#00FF88]/30 text-[#00853E] text-xs font-bold px-2 py-0.5 rounded-full">
-                  7,750€ / locație
+                  6,750€ / locație
                 </span>
               </div>
 
@@ -782,29 +842,28 @@ export function AreaGymOferta() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs text-text-body">Cost pe zi</span>
                   <span className="text-sm font-bold text-text-head font-mono flex items-center gap-1.5">
-                    4.25€/zi
+                    3.70€/zi
                     <Coffee className="w-3.5 h-3.5 text-text-label" />
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-text-body">Echivalent lunar</span>
-                  <span className="text-sm font-bold text-text-head font-mono">~129€/lună</span>
+                  <span className="text-sm font-bold text-text-head font-mono">~112€/lună</span>
                 </div>
               </div>
 
               {/* Savings callout */}
               <div className="bg-[#FFD700]/10 border border-[#FFD700]/30 rounded-xl px-4 py-3 mb-6">
                 <p className="text-sm text-text-head">
-                  <span className="font-bold">+5,000€</span> față de pachetul esențial = <span className="font-bold text-[#00853E]">o locație întreagă în plus</span>.
-                  Per locație, economisești <span className="font-bold font-mono">26%</span>.
+                  <span className="font-bold">+4,500€</span> față de pachetul esențial = <span className="font-bold text-[#00853E]">o locație întreagă în plus</span>.
+                  Per locație, economisești <span className="font-bold font-mono">25%</span>.
                 </p>
               </div>
 
               <ul className="space-y-3 mb-8">
                 {[
-                  "1× ecran LED transparent P6 (intrare)",
-                  "2× panouri LED transparent P16 (balcon)",
-                  "Transport internațional (air freight)",
+                  "1× ecran LED transparent (intrare)",
+                  "2× panouri LED transparent (balcon)",
                   "Instalare profesională — ambele locații",
                   "Acces platformă de management",
                   "Conținut inițial inclus",
@@ -818,7 +877,7 @@ export function AreaGymOferta() {
               </ul>
 
               <a
-                href="https://wa.me/40787578482?text=Salut!%20Vreau%20pachetul%20Complet%20(P6%20%2B%20P16)%20pentru%20Area%20Gym."
+                href="https://wa.me/40787578482?text=Salut!%20Vreau%20pachetul%20Complet%20pentru%20Area%20Gym."
                 className="block w-full text-center bg-[#00FF88] border-2 border-text-head text-text-head px-6 py-3.5 rounded-full font-bold shadow-[4px_4px_0px_0px_#FFD700] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_#FFD700] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#FFD700] transition-all"
               >
                 Alege pachetul complet <ArrowRight className="w-4 h-4 inline ml-1" />
@@ -842,7 +901,7 @@ export function AreaGymOferta() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {[
               { icon: Ruler, title: "Măsurare la fața locului", desc: "Venim, măsurăm exact, planificăm instalarea." },
-              { icon: Package, title: "Ecrane LED + transport", desc: "Hardware premium, livrat direct din fabrică prin air freight." },
+              { icon: Package, title: "Ecrane LED premium", desc: "Hardware de calitate, gata de instalare." },
               { icon: Wrench, title: "Instalare profesională", desc: "Montaj complet, cablaj ascuns, fără daune pe geam." },
               { icon: Monitor, title: "Platformă de management", desc: "Schimbi conținutul de pe telefon. Programezi, automatizezi." },
               { icon: Palette, title: "Conținut de start", desc: "Primele materiale grafice — gata de afișat din ziua 1." },
@@ -881,10 +940,8 @@ export function AreaGymOferta() {
           <div className="space-y-0">
             {[
               { step: "01", title: "Confirmi oferta", desc: "Alegi pachetul, semnăm. Avans 50% la confirmare.", time: "Ziua 1" },
-              { step: "02", title: "Măsurăm pe loc", desc: "Venim la Unirea Shopping Center, măsurăm exact vitrinele și planificăm montajul.", time: "Ziua 2-3" },
-              { step: "03", title: "Producție + livrare", desc: "Ecranele se fabrică pe dimensiunile exacte și se livrează prin curier aerian.", time: "2-3 săptămâni" },
-              { step: "04", title: "Instalare", desc: "Montăm totul într-o zi. Lipim, cablăm, configurăm, testăm. Fără deranj.", time: "1 zi" },
-              { step: "05", title: "Ești live", desc: "Îți arătăm platforma, setăm primul conținut, și e gata. Vitrina lucrează pentru tine.", time: "Din ziua 1" },
+              { step: "02", title: "Producție + livrare", desc: "Ecranele se fabrică pe dimensiunile exacte. Livrare 2-3 săptămâni de la confirmare.", time: "2-3 săptămâni" },
+              { step: "03", title: "Instalare + Ești live", desc: "Montăm totul într-o zi. Lipim, cablăm, configurăm, testăm. Fără deranj. Îți arătăm platforma, setăm primul conținut, și e gata. Vitrina lucrează pentru tine.", time: "1 zi" },
             ].map(({ step, title, desc, time }, i) => (
               <motion.div
                 key={i}
@@ -895,12 +952,12 @@ export function AreaGymOferta() {
                 className="flex gap-4 md:gap-6 relative"
               >
                 {/* Line connector */}
-                {i < 4 && (
+                {i < 2 && (
                   <div className="absolute left-[23px] md:left-[27px] top-14 bottom-0 w-0.5 bg-border-subtle" />
                 )}
                 <div className="shrink-0 relative z-10">
                   <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl border-2 border-text-head flex items-center justify-center font-mono font-bold text-sm ${
-                    i === 4 ? "bg-[#00FF88] text-white shadow-[3px_3px_0px_0px_#141414]" : "bg-white text-text-head shadow-[3px_3px_0px_0px_#00FF88]"
+                    i === 2 ? "bg-[#00FF88] text-white shadow-[3px_3px_0px_0px_#141414]" : "bg-white text-text-head shadow-[3px_3px_0px_0px_#00FF88]"
                   }`}>
                     {step}
                   </div>
@@ -919,20 +976,50 @@ export function AreaGymOferta() {
       </section>
 
       {/* ═══════════════════════════════════════════════════
+          BEFORE / AFTER — Visual comparison
+      ═══════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-28 bg-[#111111] relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] -mt-12 z-[9]">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-[clamp(1.8rem,4vw,3rem)] font-bold text-white leading-[1.15] mb-4">
+              <WordReveal text="Înainte și după." className="justify-center" />
+            </h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.8, ease }}
+              className="text-lg text-white/60"
+            >
+              Trage slider-ul și vezi diferența.
+            </motion.p>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.7, ease }}
+          >
+            <BeforeAfter />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════
           FINAL CTA
       ═══════════════════════════════════════════════════ */}
       <div className="overflow-visible px-4 pt-8">
         <section className="max-w-5xl mx-auto py-20 md:py-28 bg-[#111111] relative rounded-[2rem] md:rounded-[2.5rem] border-2 border-[#00FF88] mb-24 md:mb-36 z-[9]">
           {/* Corner images */}
-          <img
-            src="/demo/areagym/areagym-mall-v10-benchpress.webp"
-            alt=""
+          <video
+            src="/demo/areagym/areagym-front-point.mp4"
+            autoPlay loop muted playsInline
             className="absolute -bottom-8 -left-8 w-32 md:w-44 rounded-2xl border-2 border-white/20 shadow-[4px_4px_0px_0px_#00FF88] object-cover aspect-[3/4] hidden sm:block"
             style={{ transform: "rotate(-6deg)" }}
           />
-          <img
-            src="/demo/areagym/areagym-balustrade-v14-2.webp"
-            alt=""
+          <video
+            src="/demo/areagym/areagym-terrace-v6.mp4"
+            autoPlay loop muted playsInline
             className="absolute -top-8 -right-8 w-32 md:w-44 rounded-2xl border-2 border-white/20 shadow-[4px_4px_0px_0px_#FFD700] object-cover aspect-[3/4] hidden sm:block"
             style={{ transform: "rotate(5deg)" }}
           />
@@ -953,7 +1040,7 @@ export function AreaGymOferta() {
             </h2>
 
             <p className="text-white/50 text-base md:text-lg leading-relaxed mb-10">
-              4.25€ pe zi. Zero costuri lunare. 10+ ani. Vitrina care lucrează non-stop,
+              3.70€ pe zi. Zero costuri lunare. 10+ ani. Vitrina care lucrează non-stop,
               chiar și când tu nu ești la sală.
             </p>
 
