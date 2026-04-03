@@ -32,6 +32,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/demo/areagym/oferta", "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Slack|Telegram|Twitter|LinkedIn|Discord|Embed).*" }], "destination": "/api/og/areagym-oferta" },
     { "source": "/demo/areagym", "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(bot|crawl|spider|facebookexternalhit|WhatsApp|Slack|Telegram|Twitter|LinkedIn|Discord|Embed).*" }], "destination": "/api/og/areagym" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]

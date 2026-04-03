@@ -149,7 +149,7 @@ export function AreaGymOferta() {
         <meta name="robots" content="noindex, nofollow" />
         <meta property="og:title" content="Area Gym Brașov — Ofertă personalizată | Glass Display" />
         <meta property="og:description" content="Ofertă personalizată pentru Area Gym Brașov. Ecrane LED transparente pentru vitrinele alese." />
-        <meta property="og:image" content="https://glassdisplay.ro/demo/areagym/oferta/og-oferta.png" />
+        <meta property="og:image" content="https://glasspanel.ro/demo/areagym/oferta/og-oferta.png" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Navbar initialScrolled />
